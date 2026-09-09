@@ -2,7 +2,7 @@
 
 ![Flappy Kiro](img/example-ui.png){ width="520" }
 
-這是一份**正體中文**的 Kiro 實作課程教材，改寫自 AWS 官方的 [Kiro Express workshop](https://catalog.workshops.aws/kiro-express/en-US/)。
+這是一份 Kiro 實作課程教材，改寫自 AWS 官方的 [Kiro Express workshop](https://catalog.workshops.aws/kiro-express/en-US/)。
 
 你會從零建出 **Flappy Kiro** — 一款在瀏覽器中執行的街機風無盡跑酷遊戲，主角是友善的幽靈 **Ghosty**。過程中你會實際體驗 Kiro 的 **spec-driven development**：先定義需求，再與 AI 協作精修設計，然後引導 Kiro 逐項完成實作 — 而你全程掌握主導權。
 
