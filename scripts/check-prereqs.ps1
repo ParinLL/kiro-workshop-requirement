@@ -154,19 +154,6 @@ if (Test-Path $npxCache) {
     Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
 }
 
-# --- Kiro CLI ---
-if (Get-Command kiro-cli -ErrorAction SilentlyContinue) {
-    Write-Ok 'kiro-cli 已安裝'
-    kiro-cli whoami *>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok 'kiro-cli 已登入'
-    } else {
-        Write-Note 'kiro-cli 未登入 — 執行 kiro-cli login'
-    }
-} else {
-    Write-Note 'kiro-cli 未安裝 — 見 https://kiro.dev/downloads/'
-}
-
 # --- AWS CLI ---
 if (Get-Command aws -ErrorAction SilentlyContinue) {
     Write-Ok ("AWS CLI 已安裝 ({0})" -f ((aws --version 2>&1) -split ' ')[0])

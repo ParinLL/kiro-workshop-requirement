@@ -158,18 +158,6 @@ if [ -n "$NODE_BIN" ]; then
   fi
 fi
 
-# --- Kiro CLI ---
-if command -v kiro-cli >/dev/null 2>&1; then
-  ok 'kiro-cli 已安裝'
-  if kiro-cli whoami >/dev/null 2>&1; then
-    ok 'kiro-cli 已登入'
-  else
-    note 'kiro-cli 未登入 — 執行 kiro-cli login'
-  fi
-else
-  note 'kiro-cli 未安裝 — curl -fsSL https://cli.kiro.dev/install | bash'
-fi
-
 # --- AWS CLI ---
 if command -v aws >/dev/null 2>&1; then
   ok "AWS CLI 已安裝 ($(aws --version 2>&1 | awk '{print $1}'))"

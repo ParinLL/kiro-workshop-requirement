@@ -21,7 +21,7 @@ Workshop 內容是用 Kiro 的 **spec-driven development** 流程，從零建出
 | 7 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
 | 8 | （建議）預先下載 starter kit | 避免現場網路壅塞 |
 
-選配章節（Going further / Deploy）另需 Node.js 20+、**Google Chrome**、Kiro CLI、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
+選配章節（Going further / Deploy）另需 Node.js 20+、**Google Chrome**、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
 
 **若會做 MCP 章節，強烈建議行前跑一次 `npx -y @playwright/mcp@latest --version` 暖機**，可省下現場每人 57 MB 的下載。
 
@@ -227,23 +227,6 @@ npx -y @playwright/mcp@latest --version
 
 **結論**：Playwright 必裝（章節指定用到）；Context7 列為選配加分，若要開就一定要配自己的 free API key，否則建議課堂上別開。
 
-### Kiro CLI
-
-延伸章節會用 Kiro CLI 在終端機補測試。
-
-```bash
-curl -fsSL https://cli.kiro.dev/install | bash
-```
-
-支援平台：macOS、Windows 11（PowerShell）、Linux（glibc 2.34+ 或 musl）。
-
-安裝後登入並驗證：
-
-```bash
-kiro-cli login    # 選 "Use for Free with Builder ID"
-kiro-cli whoami
-```
-
 ### AWS 帳號（Deploy 章節需要）
 
 - 在 **AWS 官方活動**中會提供 sandbox 帳號，透過 Workshop Studio 的 **Get AWS CLI Credentials** 取得，**不需自備帳號**
@@ -286,7 +269,6 @@ bash scripts/check-prereqs.sh
 - [ ] （選配）Google Chrome 已安裝（Playwright MCP 需要）
 - [ ] （選配）已執行 `npx -y @playwright/mcp@latest --version` 暖機
 - [ ] （選配）Context7 free API key 已取得並設為 `CONTEXT7_API_KEY`
-- [ ] （選配）`kiro-cli whoami` 能回傳身分
 
 > 若你用 nvm / fnm / volta / asdf 管理 Node，注意這些版本管理器在非互動 shell 中不會載入，Kiro 的 MCP 設定可能需要填 node 的**絕對路徑**。檢查腳本會偵測並提醒。
 
@@ -312,9 +294,11 @@ bash scripts/check-prereqs.sh
 | Create the application | 用 Spec 產生 requirements / design / tasks | 25 分 |
 | Build the application | 建立 steering files、執行 tasks 建出遊戲 | 15 分 |
 | Run Flappy Kiro! | 執行遊戲、修 bug、加功能 | — |
-| (Optional) Going further | Subagents、Checkpointing、Hooks、MCP、Skills、Powers、CLI | — |
+| (Optional) Going further | Subagents、Checkpointing、Hooks、MCP、Skills、Powers、Kiro CLI | — |
 | (Optional) Deploy | 部署到 AWS / Vercel / Netlify | — |
 | Clean up / Summary | 清理資源、總結 | — |
+
+> Going further 裡的 **Kiro CLI** 章節不在本次課程範圍，學員無需安裝 Kiro CLI。
 
 ---
 
