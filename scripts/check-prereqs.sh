@@ -103,7 +103,7 @@ for host in app.kiro.dev assets.app.kiro.dev prod.us-east-1.auth.desktop.kiro.de
   fi
 done
 
-head1 '選配項目 (Going further)'
+head1 '開發工具'
 
 # --- Node.js ---
 # 注意: nvm / fnm / volta / asdf 管理的 Node 在非互動 shell 中不會出現在 PATH,
@@ -133,7 +133,7 @@ if [ -n "$NODE_BIN" ]; then
   nv="$("$NODE_BIN" --version | tr -d 'v')"
   major="${nv%%.*}"
   if [ "$major" -ge 20 ] 2>/dev/null; then
-    ok "Node.js v$nv (MCP 章節可用) — $NODE_BIN"
+    ok "Node.js v$nv — $NODE_BIN"
   else
     note "Node.js v$nv 版本偏舊，建議升級到 20 LTS 以上"
   fi
@@ -141,7 +141,7 @@ if [ -n "$NODE_BIN" ]; then
     note 'node 不在預設 PATH（版本管理器如 nvm 造成）— Kiro 的 MCP 設定可能需要填絕對路徑'
   fi
 else
-  note 'Node.js 未安裝 — Playwright / Context7 MCP 章節需要（https://nodejs.org/）'
+  note 'Node.js 未安裝 — Kiro 產出的測試與 MCP 章節都會用到。macOS: brew install node / Windows: winget install OpenJS.NodeJS.LTS'
 fi
 
 # --- Google Chrome (Playwright MCP 預設使用系統 Chrome) ---
@@ -153,7 +153,7 @@ done
 if [ -n "$chrome_found" ]; then
   ok "Google Chrome 已安裝 ($chrome_found) — Playwright MCP 可直接使用"
 else
-  note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome，缺少時首次呼叫會失敗並要求 npx playwright install chrome'
+  note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome。macOS: brew install --cask google-chrome'
 fi
 
 # --- Playwright MCP 套件快取是否已暖機 ---

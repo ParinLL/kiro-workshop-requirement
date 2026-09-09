@@ -149,13 +149,16 @@ curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/
 2. 取得 starter kit 並把內容搬進你的專案資料夾：
 
 ```powershell
-curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.zip -o repo.zip
+curl.exe -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.zip -o repo.zip
 Expand-Archive -Path repo.zip -DestinationPath tmp
 Get-ChildItem -Path tmp\kiro-workshop-requirement-main\starter-kit -Force | Move-Item -Destination .
 Remove-Item -Recurse -Force tmp, repo.zip
 ```
 
-> `-Force` 是必要的 — 少了它 PowerShell 會跳過 `.gitignore` 這類隱藏檔。
+兩個容易踩到的細節，都是在真實 Windows 上驗過的：
+
+- **一定要寫 `curl.exe`，不能只寫 `curl`**。Windows PowerShell 5.1 把 `curl` 設成 `Invoke-WebRequest` 的別名，它不認得 `-L` 與 `-o`，指令會靜默失敗、什麼都沒下載
+- **`-Force` 是必要的** — 少了它 `Get-ChildItem` 會跳過 `.gitignore` 這類檔案
 
 </details>
 

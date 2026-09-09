@@ -125,19 +125,19 @@ foreach ($h in $hosts) {
     }
 }
 
-Write-Head '選配項目 (Going further)'
+Write-Head '開發工具'
 
 # --- Node.js ---
 if (Get-Command node -ErrorAction SilentlyContinue) {
     $nv = (node --version).TrimStart('v')
     $major = [int]($nv -split '\.')[0]
     if ($major -ge 20) {
-        Write-Ok "Node.js v$nv (MCP 章節可用)"
+        Write-Ok "Node.js v$nv"
     } else {
         Write-Note "Node.js v$nv 版本偏舊，建議升級到 20 LTS 以上"
     }
 } else {
-    Write-Note 'Node.js 未安裝 — Playwright / Context7 MCP 章節需要（https://nodejs.org/）'
+    Write-Note 'Node.js 未安裝 — Kiro 產出的測試與 MCP 章節都會用到。winget install OpenJS.NodeJS.LTS'
 }
 
 # --- Google Chrome (Playwright MCP 預設使用系統 Chrome) ---
@@ -150,7 +150,7 @@ $chrome = $chromePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
 if ($chrome) {
     Write-Ok "Google Chrome 已安裝 ($chrome) — Playwright MCP 可直接使用"
 } else {
-    Write-Note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome，缺少時首次呼叫會失敗並要求 npx playwright install chrome'
+    Write-Note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome。winget install Google.Chrome'
 }
 
 # --- Playwright MCP 套件快取是否已暖機 ---

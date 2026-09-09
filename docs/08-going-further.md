@@ -272,7 +272,7 @@ commit message 依實際變更內容產生描述性的說明。
 
 ### 前置需求
 
-MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Playwright MCP 另外需要系統已安裝 **Google Chrome**。詳見[行前準備](00-prerequisites.md)。
+MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Playwright MCP 另外需要系統已安裝 **Google Chrome**。兩者都在[行前準備的必備清單](00-prerequisites.md#items)裡，安裝指令見[一次裝完](00-prerequisites.md#oneshot)。
 
 ### 安裝 Playwright MCP Server
 
