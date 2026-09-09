@@ -88,39 +88,6 @@
     npx -y serve --version                    # 約 16 MB
     ```
 
-=== "Linux"
-
-    Kiro IDE 需從[官方下載頁](https://kiro.dev/downloads/)取得 `.deb` 或 Universal 版本，其餘用套件管理器：
-
-    ```bash
-    # Debian / Ubuntu
-    sudo apt update && sudo apt install -y git curl tar
-
-    # Fedora
-    sudo dnf install -y git curl tar
-
-    # Arch
-    sudo pacman -S --needed git curl tar
-    ```
-
-    Node.js 建議用 [nvm](https://github.com/nvm-sh/nvm)（不需 root，且方便切版本）：
-
-    ```bash
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.7/install.sh | bash
-    # 重開終端機或 source 你的 shell rc 後
-    nvm install --lts
-    ```
-
-    Google Chrome：
-
-    ```bash
-    # Debian / Ubuntu
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-    ```
-
-    設定 Git 身分與 npx 暖機同 macOS。
-
 ---
 
 <a id="items"></a>
@@ -133,7 +100,6 @@
 
 - **macOS** — Intel 或 Apple Silicon
 - **Windows** — 10 / 11（64-bit）
-- **Linux** — Ubuntu 24+、Debian 13+、Fedora 40+、Arch、Mint 22+
 
 建議規格：8 GB 以上 RAM、10 GB 以上可用磁碟空間。
 
@@ -143,7 +109,7 @@
 
 - 免費，**不需要 AWS 帳號**，也不會產生任何費用
 - 建立 / 檢視：<https://profile.aws.amazon.com/>
-- 也可以用 Google / GitHub 登入
+- 也可以用 Google / GitHub 登入，但教材步驟是以 Builder ID 為主
 
 **請在活動前先建好帳號並確認能登入。**
 
@@ -160,10 +126,6 @@
     ```powershell
     winget install Amazon.Kiro
     ```
-
-=== "Linux"
-
-    從 <https://kiro.dev/downloads/> 下載 `.deb`（Debian / Ubuntu 24+）或 Universal 版本後安裝。
 
 不想用套件管理器的話，直接到 <https://kiro.dev/downloads/> 下載安裝檔即可（撰寫時為 IDE 1.0.437）。
 
@@ -197,14 +159,6 @@
     winget install Git.Git
     ```
 
-=== "Linux"
-
-    ```bash
-    sudo apt install -y git      # Debian / Ubuntu
-    sudo dnf install -y git      # Fedora
-    sudo pacman -S --needed git  # Arch
-    ```
-
 裝完後**必須設定身分**，否則 commit 會失敗：
 
 ```bash
@@ -224,7 +178,7 @@ git config --global user.email   # 需有值
 
 用來取得並解開 starter kit。各平台都是系統內建，**通常不需額外安裝**。
 
-- **macOS / Linux** — 內建 `curl` 與 `tar`
+- **macOS** — 內建 `curl` 與 `tar`
 - **Windows** — 內建 `curl.exe` 與 `tar.exe`（bsdtar），解壓也可用 PowerShell 的 `Expand-Archive`
 
 確認：
@@ -254,13 +208,6 @@ Flappy Kiro 是網頁遊戲，需要瀏覽器執行與測試。Chrome、Edge、S
     winget install Google.Chrome
     ```
 
-=== "Linux"
-
-    ```bash
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-    ```
-
 ### 7. Node.js 20 或以上
 
 **這一項的重要性比原版 workshop 描述的更高**，原因有三個，只有第三個是選配：
@@ -282,23 +229,6 @@ Flappy Kiro 是網頁遊戲，需要瀏覽器執行與測試。Chrome、Edge、S
     ```
 
     裝完請**關閉並重開 PowerShell**，PATH 才會生效。
-
-=== "Linux"
-
-    用 nvm（不需 root）：
-
-    ```bash
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.7/install.sh | bash
-    # 重開終端機後
-    nvm install --lts
-    ```
-
-    或用 NodeSource 套件庫：
-
-    ```bash
-    curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
-    sudo apt install -y nodejs
-    ```
 
 確認（需 v20 以上，撰寫時 LTS 為 v24）：
 
@@ -449,7 +379,7 @@ npx -y @playwright/mcp@latest --version
 | 做法 | 指令 | 成本與限制 |
 |---|---|---|
 | **`npx serve`**（推薦） | `npx -y serve -l 8000` | 需要 Node。冷啟動下載約 **16 MB**，跨平台一致 |
-| **Python** | `python3 -m http.server 8000` | macOS / Linux 通常已有。**Windows 不內建** |
+| **Python** | `python3 -m http.server 8000` | macOS 通常已有。**Windows 不內建** |
 | **Kiro 擴充套件** | 從 Open VSX 安裝 Live Server 類擴充 | 不用碰終端機，但屬第三方套件，課堂上多一個變數 |
 
 **為什麼推薦 `npx serve`**：Node 本來就在必備清單上，不必再多裝 Python。
@@ -488,15 +418,6 @@ npx -y serve --version
     xcode-select --install    # 或 brew install python
     ```
 
-=== "Linux"
-
-    多數發行版已內建：
-
-    ```bash
-    python3 --version
-    sudo apt install -y python3   # 若缺少
-    ```
-
 ### Context7 MCP — 原版沒提到，但值得加
 
 [Context7](https://context7.com/) 提供**函式庫的即時最新文件**給 AI agent 用，同樣在 Kiro Server Directory 裡可一鍵安裝。
@@ -515,7 +436,7 @@ npx -y serve --version
 - 匿名額度是**按 IP** 計算。整間教室走同一個 NAT 出口，30～100 人共用一個額度，**很可能撞 429，反而變成 lab 的卡點**
 - 因此若要在課堂使用，請**每位學員各自申請免費 key**：<https://context7.com/dashboard>，然後設為環境變數：
 
-=== "macOS / Linux"
+=== "macOS"
 
     ```bash
     export CONTEXT7_API_KEY="你的 key"
@@ -537,7 +458,7 @@ npx -y serve --version
 
 本 repo 提供檢查腳本，執行後會列出各項目狀態。
 
-=== "macOS / Linux"
+=== "macOS"
 
     ```bash
     git clone https://github.com/ParinLL/kiro-workshop-requirement.git

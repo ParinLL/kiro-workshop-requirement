@@ -54,7 +54,7 @@ Kiro 的介面主要由這幾塊組成：
 | **Status bar** | 顯示目前檔案、Git 狀態、錯誤與警告數量 |
 | **Kiro panel** | Kiro 的 AI 功能區。點側邊欄的 Kiro 幽靈圖示開啟 |
 
-**Command Palette** 可快速存取常用動作與 AI 工具：從 **View > Command Palette...** 選單開啟，或按 `Cmd+Shift+P`（Mac）/ `Ctrl+Shift+P`（Windows / Linux）。
+**Command Palette** 可快速存取常用動作與 AI 工具：從 **View > Command Palette...** 選單開啟，或按 `Cmd+Shift+P`（Mac）/ `Ctrl+Shift+P`（Windows）。
 
 ### Chat panel
 
@@ -72,7 +72,7 @@ Kiro 的介面主要由這幾塊組成：
 
 開啟 chat 的三種方式：
 
-- **快捷鍵**：`Cmd+L`（Mac）/ `Ctrl+L`（Windows / Linux）
+- **快捷鍵**：`Cmd+L`（Mac）/ `Ctrl+L`（Windows）
 - **Command Palette**：`Cmd+Shift+P` / `Ctrl+Shift+P`，搜尋 `Kiro: Open Chat`
 - **側邊欄**：`Cmd+Opt+B`（Mac）/ `Ctrl+Alt+B`，切換右側的 Kiro chat 圖示
 
@@ -130,7 +130,7 @@ Kiro panel 集中了 AI 專屬功能：
 Starter kit 放在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。
 
 <details open>
-<summary><b>macOS / Linux</b></summary>
+<summary><b>macOS</b></summary>
 
 1. 用 **Terminal > New Terminal** 選單開啟新的終端機視窗
 2. 取得 starter kit 並把內容搬進你的專案資料夾：

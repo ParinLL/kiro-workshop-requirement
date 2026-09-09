@@ -27,7 +27,7 @@
 
 快速檢查你的環境（[取得檢查腳本](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/scripts)）：
 
-=== "macOS / Linux"
+=== "macOS"
 
     ```bash
     bash scripts/check-prereqs.sh

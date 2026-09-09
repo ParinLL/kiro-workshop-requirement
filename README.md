@@ -22,7 +22,7 @@
 2. 跑一次環境檢查腳本：
 
    ```bash
-   # macOS / Linux
+   # macOS
    bash scripts/check-prereqs.sh
    ```
 
@@ -61,7 +61,7 @@
 │   ├── README.md                # 素材規格說明
 │   └── LICENCE.md               # MIT-0
 ├── scripts/
-│   ├── check-prereqs.sh         # 行前環境檢查（macOS / Linux）
+│   ├── check-prereqs.sh         # 行前環境檢查（macOS）
 │   └── check-prereqs.ps1        # 行前環境檢查（Windows）
 ├── mkdocs.yml                   # 網站設定
 └── requirements-docs.txt        # 建站相依套件

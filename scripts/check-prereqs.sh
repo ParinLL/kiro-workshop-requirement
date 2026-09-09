@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Kiro Express workshop - 行前環境檢查 (macOS / Linux)
+# Kiro Express workshop - 行前環境檢查 (macOS)
 # 用法: bash scripts/check-prereqs.sh
 
 set -uo pipefail

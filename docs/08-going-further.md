@@ -309,7 +309,7 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 > ```bash
 > npx -y serve -l 8000        # 推薦，跨平台一致
 > # 或
-> python3 -m http.server 8000 # macOS / Linux；Windows 不內建 Python
+> python3 -m http.server 8000 # macOS；Windows 不內建 Python
 > ```
 >
 > 然後讓 Playwright 檢查 `http://localhost:8000`。
