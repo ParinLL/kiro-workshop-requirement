@@ -101,7 +101,33 @@ mkdocs build --strict
 
 **強化**：更完整的音效素材（多了計分音與可循環背景音樂）、Context7 MCP 的評估與 rate limit 提醒、實測過的 Playwright MCP 行前細節、兩個平台的環境檢查腳本。
 
-詳見[課程首頁的完整說明](docs/index.md)。
+---
+
+## 開課須知
+
+以下是規劃課程時需要知道的事，`docs/` 裡的教材維持學員視角，不含這些內容。
+
+**頻寬**
+
+MCP 章節的 Playwright server 設定是 `npx @playwright/mcp@latest`，套件在 server 第一次啟動時才下載，**每台機器約 57 MB**。30 人約 1.7 GB、100 人約 5.7 GB，且集中在同一時段。可考慮把 MCP 章節排在後段、分批進行，或事先確認場地頻寬。
+
+「先暖機 npx 快取」不是可靠的解法：`@latest` 每次都會重新向 registry 解析版本，只要活動前套件發了新版就會重新下載（實測換版本後多抓 22 MB）。全域 `npm install -g` 也沒用 — 已全域安裝 0.0.80 的機器，`npx` 仍下載了 57 MB。若真要求確定性，做法是在 `mcp.json` 裡把版本釘死。
+
+**Context7 的 rate limit**
+
+免費額度按 IP 計算，整班走同一個 NAT 出口會共用額度、容易撞 429。若要在課堂開啟，請要求每位學員各自申請 free key。
+
+**已在實機驗證過的行為**
+
+| 項目 | 結果 |
+|---|---|
+| Playwright MCP 是否下載 Chromium | 不會。把 `PLAYWRIGHT_BROWSERS_PATH` 指到空目錄仍能操作網頁，該目錄維持 0 B — 它用的是系統 Chrome |
+| Playwright MCP 對 `file://` | 拒絕存取；`http://localhost` 正常。所以 MCP 章節必須起本機伺服器 |
+| Windows 的 `curl` | PowerShell 5.1 把它設為 `Invoke-WebRequest` 別名，`--version` 會被當網址。教材一律寫 `curl.exe` |
+| Windows 的 `python3` | 預設是 0 byte 的 App Execution Alias，執行回 exit 9009。檢查腳本會跳過它 |
+| `check-prereqs.ps1` 編碼 | 必須存成 **UTF-8 with BOM**，否則 PS 5.1 以 ANSI 解讀中文導致語法錯誤 |
+
+驗證環境：Windows 11 (26200) / PowerShell 5.1、macOS 15 (arm64)。
 
 ---
 

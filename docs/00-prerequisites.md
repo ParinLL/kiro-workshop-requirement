@@ -1,8 +1,8 @@
 # 第 0 章：行前準備
 
-本章整理學員在活動前需要準備的所有項目，每一項都附上各平台的實際安裝指令。
+本章整理你在課程開始前需要準備的所有項目，每一項都附上各平台的實際安裝指令。
 
-> **請務必在活動前完成「必備項目」**，特別是 Kiro IDE 安裝 + 登入。現場最常卡住的就是登入與企業防火牆。
+> **請在課程開始前完成「必備項目」**，特別是 Kiro IDE 的安裝與登入。登入流程與企業網路的防火牆設定最花時間，提早處理會順利很多。
 
 ---
 
@@ -17,9 +17,9 @@
 | 5 | curl + 解壓工具 | 取得 starter kit（系統內建） |
 | 6 | Google Chrome | 執行遊戲；Playwright MCP 也指定要它 |
 | 7 | **Node.js 20+** | **Kiro 產出的程式常會用到**，MCP 章節也需要 |
-| 8 | 耳機（建議） | 遊戲有音效，教室裡會很吵 |
-| 9 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
-| 10 | 預先取得 starter kit | 避免現場網路壅塞 |
+| 8 | 耳機（建議） | 遊戲有音效，方便你聽自己做的音效回饋 |
+| 9 | 防火牆 / Proxy 放行 | 企業或校園網路常需要事先申請 |
+| 10 | 預先取得 starter kit | 課前抓好，開始時就能直接進入主題 |
 
 > **費用提醒**：本課程**全程在本機執行，完全免費**。不會建立任何 AWS 資源，因此不需要 AWS 帳號、AWS CLI，也沒有部署環節。你只需要一組免費的 AWS Builder ID 來登入 Kiro。
 
@@ -214,7 +214,7 @@ Flappy Kiro 是網頁遊戲，需要瀏覽器執行與測試。Chrome、Edge、S
 
 ### 7. Node.js 20 或以上
 
-**這一項的重要性比原版 workshop 描述的更高**，原因有三個，只有第三個是選配：
+**建議一定要裝**，有三個地方會用到，只有第三個是選配：
 
 1. **Kiro 產出的程式很可能需要 Node** — 你在設計與實作階段會請 Kiro 寫測試、加工具、跑檢查。以本課程的技術選型（原生 HTML5 Canvas + JavaScript）來說，Kiro 產生的單元測試與 property-based test 通常會用 Node 內建的 `node:test` 執行。沒有 Node，這些任務就只能跳過
 2. **本機靜態伺服器** — `npx serve` 是跨平台最省事的做法，見[本機靜態伺服器](#local-server)
@@ -245,7 +245,7 @@ npx --version
 
 ### 8. 耳機（建議）
 
-遊戲有拍翅、計分、碰撞三種音效，還有循環播放的背景音樂。**一整間教室同時開音效會很吵**，建議自備耳機，這樣你才聽得出自己做的音效回饋對不對。
+遊戲有拍翅、計分、碰撞三種音效，還有循環播放的背景音樂。戴耳機你才聽得清楚自己做出來的音效回饋對不對，也不會影響旁邊的人。
 
 ### 9. 網路 / 防火牆 / Proxy
 
@@ -312,7 +312,7 @@ Kiro IDE 支援標準 proxy 環境變數 `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROX
 
 ### 10. 預先取得 starter kit
 
-Starter kit 就在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。現場才下載可能因網路壅塞而卡住，建議行前先抓。
+Starter kit 就在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。建議課前先抓下來，開始時就能直接進入主題。
 
 最簡單的方式是直接 clone 整個 repo（教材與素材一次到手）：
 
@@ -346,93 +346,53 @@ LICENCE.md
 
 前提是[第 7 項的 Node.js](#7-nodejs-20-或以上) 與[第 6 項的 Google Chrome](#6-google-chrome) 已裝好。
 
-### Playwright MCP — 建議行前預裝
+### Playwright MCP
 
-MCP 章節指定使用 **Playwright MCP server**，從 [Kiro Server Directory](https://kiro.dev/docs/mcp/servers/) 按 **+ Add to Kiro** 一鍵加入，不需手動編輯設定檔。
+MCP 章節使用 **Playwright MCP server**，從 [Kiro Server Directory](https://kiro.dev/docs/mcp/servers/) 按 **+ Add to Kiro** 一鍵加入，不需手動編輯設定檔。
 
-實測過的三件事（避免現場踩雷）：
+有兩個行為值得先知道：
 
-| 項目 | 實測結果 |
+| 項目 | 說明 |
 |---|---|
-| 套件冷啟動下載量 | **約 57 MB**（npx 快取） |
-| 是否下載瀏覽器 binary | **不會**。把 `PLAYWRIGHT_BROWSERS_PATH` 指向空目錄後仍能正常操作網頁，該目錄維持 0 B |
-| 沒裝 Chrome 的後果 | 第一次呼叫工具就失敗：`Chromium distribution 'chrome' is not found ... Run "npx playwright install chrome"` |
+| 首次啟動會下載套件 | 約 **57 MB**。設定檔寫的是 `npx @playwright/mcp@latest`，套件在 MCP server 第一次啟動時才下載，需要幾十秒 |
+| 使用的是系統 Chrome | 它**不會**另外下載 Chromium，而是直接用你系統上安裝的 Google Chrome。沒裝 Chrome 的話，第一次呼叫工具就會失敗並顯示 `Chromium distribution 'chrome' is not found` |
 
-所以真正的相依是**系統要有 Google Chrome**，不是下載 Chromium。
+所以這一節真正的前置條件是**系統要有 Google Chrome**，先裝好就不會卡住。
 
-!!! note "教室頻寬要有心理準備"
-
-    「+ Add to Kiro」寫進設定檔的指令是 `npx @playwright/mcp@latest`，套件會在
-    MCP server 第一次啟動時才下載，**每台機器約 57 MB**。30 人約 1.7 GB，
-    100 人約 5.7 GB，全部集中在同一個時段。
-
-    講師可考慮把 MCP 章節排在課程後段、分批進行，或事先確認場地頻寬。
-
-> **另一個現場陷阱**：Playwright MCP **預設封鎖 `file://` 協定**。若學員用瀏覽器直接開 `index.html`，MCP 會拒絕存取。做 MCP 章節時必須改用本機靜態伺服器 — 見下方[本機靜態伺服器](#local-server)。
 
 <a id="local-server"></a>
 
 ### 本機靜態伺服器（做 MCP 章節才需要）
 
-遊戲本身用瀏覽器直接開 `index.html` 就能跑。但 Playwright MCP 預設封鎖 `file://`，所以**只有做 MCP 章節時**才需要一個本機伺服器。
-
-實測結果：`file://` 被 MCP 拒絕，`http://localhost` 正常存取。
+遊戲本身用瀏覽器直接開 `index.html` 就能跑。但 Playwright MCP 封鎖 `file://`，所以**只有做 MCP 章節時**才需要一個本機伺服器，把遊戲改用 `http://localhost` 開啟。
 
 三種做法，依推薦順序：
 
-| 做法 | 指令 | 成本與限制 |
+| 做法 | 指令 | 說明 |
 |---|---|---|
-| **`npx serve`**（推薦） | `npx -y serve -l 8000` | 需要 Node。冷啟動下載約 **16 MB**，跨平台一致 |
+| **`npx serve`**（推薦） | `npx -y serve -l 8000` | 需要 Node，兩個平台指令一致。首次執行會下載約 **16 MB** |
 | **Python** | `python3 -m http.server 8000` | macOS 通常已有。**Windows 不內建** |
-| **Kiro 擴充套件** | 從 Open VSX 安裝 Live Server 類擴充 | 不用碰終端機，但屬第三方套件，課堂上多一個變數 |
+| **Kiro 擴充套件** | 從 Open VSX 安裝 Live Server 類擴充 | 不用碰終端機，但屬第三方套件 |
 
 **為什麼推薦 `npx serve`**：Node 本來就在必備清單上，不必再多裝 Python。第一次執行會下載約 16 MB。
 
-若要走 Python 路線，兩個平台差異要注意：
-
-=== "Windows"
-
-    **完全不內建 Python**。而且 Windows 預設有一個 0 byte 的 `python3.exe` 是 Microsoft Store 的轉接殼（App Execution Alias），執行它只會回錯誤碼 9009 而不是啟動 Python — 看起來「有」但實際不能用。
-
-    要真的安裝：
-
-    ```powershell
-    winget install Python.Python.3.13
-    ```
-
-    裝完用 `python --version` 確認（Windows 上通常是 `python` 而非 `python3`）。
-
-=== "macOS"
-
-    `/usr/bin/python3` 由 Xcode Command Line Tools 提供。若機器沒裝過 CLT，第一次執行會跳出安裝對話框，那個下載不小。可先確認：
-
-    ```bash
-    python3 --version
-    ```
-
-    需要安裝的話：
-
-    ```bash
-    xcode-select --install    # 或 brew install python
-    ```
-
-### Context7 MCP — 原版沒提到，但值得加
+### Context7 MCP（選配加分）
 
 [Context7](https://context7.com/) 提供**函式庫的即時最新文件**給 AI agent 用，同樣在 Kiro Server Directory 裡可一鍵安裝。
 
-**加分在哪：**
+**什麼時候派得上用場：**
 
-- [Going further 的 subagents 章節](08-going-further.md#doc-research)明確要「平行抓取多個文件來源」，Context7 正好是這個用途
-- 學員若讓 Kiro 改用遊戲框架（Phaser、Kaboom.js、PixiJS），Context7 能給到當前版本的 API。實測查 `phaser` 會回 `/phaserjs/phaser`，2296 個 code snippets
+- [第 8 章的 subagents 段落](08-going-further.md#doc-research)會請 Kiro 平行抓取多個文件來源，Context7 正好是這個用途
+- 如果你想讓 Kiro 改用遊戲框架（Phaser、Kaboom.js、PixiJS），它能提供當前版本的 API。例如查 `phaser` 會回傳 `/phaserjs/phaser`，含 2296 個程式碼範例
 - 想深入某個瀏覽器 API（Canvas 2D、Web Audio、`requestAnimationFrame`）時，能拿到當前版本的用法
 
-**但核心 90 分鐘章節其實不需要它。** Flappy Kiro 是原生 HTML5 Canvas + JavaScript，沒有函式庫版本漂移問題，Kiro 內建知識就夠。
+**核心章節不需要它。** Flappy Kiro 是原生 HTML5 Canvas + JavaScript，沒有函式庫版本落差的問題，Kiro 內建知識就足夠。
 
-**要用就注意 rate limit（重要）：**
+**要用的話請先申請免費 API key：**
 
-- 不帶 API key 也能跑（實測未設 `CONTEXT7_API_KEY` 可正常回應），但官方明載 API key 才有較高 rate limit
-- 匿名額度是**按 IP** 計算。整間教室走同一個 NAT 出口，30～100 人共用一個額度，**很可能撞 429，反而變成 lab 的卡點**
-- 因此若要在課堂使用，請**每位學員各自申請免費 key**：<https://context7.com/dashboard>，然後設為環境變數：
+- 不帶 API key 也能運作，但官方說明 API key 才有較高的 rate limit
+- 免費額度是**按 IP** 計算，所以多人共用同一個對外網路時容易一起撞到上限
+- 在 <https://context7.com/dashboard> 申請你自己的 free key，然後設為環境變數：
 
 === "macOS"
 
@@ -448,7 +408,7 @@ MCP 章節指定使用 **Playwright MCP server**，從 [Kiro Server Directory](h
     # 設定後需重開 Kiro 才會讀到
     ```
 
-**結論**：Playwright 建議預裝（MCP 章節指定用到）；Context7 列為選配加分，若要開就一定要配自己的 free API key，否則建議課堂上別開。
+**小結**：Playwright 是 MCP 章節會實際用到的；Context7 屬於選配加分，要用就先配好自己的 free API key。
 
 ---
 

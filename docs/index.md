@@ -23,7 +23,7 @@
 ## 開始之前
 
 !!! warning "請先完成行前準備"
-    請務必在課程前完成 [第 0 章：行前準備](00-prerequisites.md)，特別是 Kiro IDE 的安裝與登入。現場最常卡住的就是登入流程與企業防火牆。
+    請在課程開始前完成 [第 0 章：行前準備](00-prerequisites.md)，特別是 Kiro IDE 的安裝與登入。登入流程與企業網路的防火牆設定最花時間，提早處理會順利很多。
 
 快速檢查你的環境（[取得檢查腳本](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/scripts)）：
 
@@ -72,28 +72,19 @@
 
 ---
 
-## 與 AWS 原版的差異
+## 課程範圍
 
-**移除的內容**
+本課程專注在 Kiro 的開發流程本身，**全程在本機執行**，不含雲端部署環節，因此不需要 AWS 帳號，也不會產生任何費用。
 
-- **Deploy 章節** — 部署到 AWS / Vercel / Netlify
-- **Clean up 章節** — 清理 AWS 資源（沒有部署就不需要）
-- **Going further 的 Kiro CLI 與 Kiro Powers** — 兩者內容都聚焦在 AWS 部署
+素材都已備妥：角色圖、三種可聽覺區分的音效，以及一段可無縫循環的背景音樂。你在需求階段就能放心把音訊回饋寫進規格，不必自己找素材。
 
-因此本課程**全程在本機執行、不需要 AWS 帳號與 AWS CLI、不會產生任何費用**。
-
-**強化的內容**
-
-- **更完整的音效素材** — 除了原版的 `ghosty.png`、`jump.wav`、`game_over.wav`，另外提供 `score.wav`（計分音）與 `bgm.wav`（可無縫循環的背景音樂），讓你在需求階段就能放心把音訊回饋寫進規格
-- **Context7 MCP** — 原版未提及，本教材列為選配加分項，並說明教室環境的 rate limit 陷阱
-- **實測過的行前準備細節** — Playwright MCP 的實際下載量、對系統 Chrome 的相依、以及它預設封鎖 `file://` 這個會影響 MCP 章節的行為
-- **環境檢查腳本** — 兩個平台各一份，可在課前自我驗證
+行前準備附有兩個平台的環境檢查腳本，可在課前自行驗證。
 
 ---
 
 ## 參考連結
 
-- AWS 原版 workshop：<https://catalog.workshops.aws/kiro-express/en-US/>
+- AWS 官方 Kiro Express workshop：<https://catalog.workshops.aws/kiro-express/en-US/>
 - Kiro 官網：<https://kiro.dev/>
 - Kiro 下載：<https://kiro.dev/downloads/>
 - Kiro 文件：<https://kiro.dev/docs/>

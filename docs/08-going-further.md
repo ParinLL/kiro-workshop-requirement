@@ -12,7 +12,7 @@
 | [8.4 MCP servers](#mcp) | 透過 Model Context Protocol 連接外部服務 |
 | [8.5 Skills](#skills) | 打包可重用的指令，讓 Kiro 在相關時自動啟用 |
 
-> **本課程範圍說明**：AWS 原版的 Going further 還有 **Kiro Powers** 與 **Kiro CLI** 兩節，內容都聚焦在 AWS 部署，因此本課程未納入。有興趣可自行參考 [Kiro 官方文件](https://kiro.dev/docs/)。
+> Kiro 還有 **Powers** 與 **CLI** 等能力本課程沒有涵蓋，它們主要用於 AWS 部署情境。想進一步了解可參考 [Kiro 官方文件](https://kiro.dev/docs/)。
 
 ---
 
@@ -322,11 +322,11 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 
 它和 [8.1 的 subagents 文件研究](#doc-research)搭配特別有用 — 想深入 Canvas 2D、Web Audio 或 `requestAnimationFrame` 的當前用法時，能拿到準確的資料而不是模型的舊記憶。
 
-> **注意 rate limit**：不帶 API key 也能使用，但匿名額度是**按 IP** 計算。如果整間教室走同一個對外 IP，很容易撞到限制。建議在 [context7.com/dashboard](https://context7.com/dashboard) 申請免費 API key，設為環境變數 `CONTEXT7_API_KEY`。
+> **注意 rate limit**：不帶 API key 也能使用，但免費額度是**按 IP** 計算，多人共用同一個對外網路時容易一起撞到上限。建議在 [context7.com/dashboard](https://context7.com/dashboard) 申請自己的免費 API key，設為環境變數 `CONTEXT7_API_KEY`。
 
 ### （選配）其他 MCP 探索方向
 
-以下是原版 workshop 提供的探索方向。這些需要外部服務，**在課堂時間內不一定做得完**，可當作課後練習。
+以下方向需要額外的外部服務，設定起來比較花時間，適合當作課後自行延伸的練習。
 
 **Sprite 生成**
 
