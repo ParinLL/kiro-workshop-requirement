@@ -21,7 +21,7 @@ Workshop 內容是用 Kiro 的 **spec-driven development** 流程，從零建出
 | 7 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
 | 8 | （建議）預先下載 starter kit | 避免現場網路壅塞 |
 
-選配章節（Going further / Deploy）另需 Node.js 20+、**Google Chrome**、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
+選配的 Going further 章節另需 Node.js 20+ 與 **Google Chrome** — 見下方[選配項目](#選配項目going-further-章節)。
 
 **若會做 MCP 章節，強烈建議行前跑一次 `npx -y @playwright/mcp@latest --version` 暖機**，可省下現場每人 57 MB 的下載。
 
@@ -152,27 +152,33 @@ Kiro IDE 支援標準 proxy 環境變數 `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROX
 
 ### 8. （建議）預先下載 starter kit
 
-Starter kit 包含遊戲素材，現場才下載可能因網路壅塞而卡住。
+Starter kit 就在本 repo 的 [`starter-kit/`](starter-kit/) 目錄，約 1.6 MB。現場才下載可能因網路壅塞而卡住，建議行前先抓。
+
+最簡單的方式是直接 clone 整個 repo（教材與素材一次到手）：
 
 ```bash
-curl 'https://static.us-east-1.prod.workshops.aws/public/27a20e39-291b-4a68-8f58-89575b985e47/assets/kiro-introduction-starter-kit.zip' \
-  -o kiro-introduction-starter-kit.zip
+git clone https://github.com/ParinLL/kiro-workshop-requirement.git
 ```
 
 內容：
 
 ```
-assets/ghosty.png       # 主角 Ghosty 的 sprite 圖
-assets/jump.wav         # 跳躍音效
-assets/game_over.wav    # 遊戲結束音效
+assets/ghosty.png       # 主角 Ghosty 的角色圖
+assets/jump.wav         # 拍翅 / 跳躍音效
+assets/score.wav        # 計分音效
+assets/game_over.wav    # 碰撞 / 遊戲結束音效
+assets/bgm.wav          # 背景音樂（可無縫循環）
+assets/favicon.ico      # 瀏覽器頁籤圖示
 img/example-ui.png      # 遊戲介面示意圖（會當成 prompt 的參考圖）
+LICENCE.md
+.gitignore
 ```
 
-Workshop 中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，把上述檔案解壓進去。
+Workshop 中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，把上述檔案放進去。素材的詳細規格見 [starter-kit/README.md](starter-kit/README.md)。
 
 ---
 
-## 選配項目（Going further / Deploy 章節）
+## 選配項目（Going further 章節）
 
 以下只有做延伸章節才需要。若時間有限可略過，但**若打算做，請一併行前準備**。
 
@@ -215,7 +221,7 @@ npx -y @playwright/mcp@latest --version
 
 - Going further 的 **subagents** 章節明確要「平行抓取多個文件來源」，Context7 正好是這個用途
 - 學員若讓 Kiro 改用遊戲框架（Phaser、Kaboom.js、PixiJS），Context7 能給到當前版本的 API。實測查 `phaser` 會回 `/phaserjs/phaser`，2296 個 code snippets
-- Deploy 章節查 CDK / Amplify 寫法時也用得上
+- 想深入某個瀏覽器 API（Canvas 2D、Web Audio、requestAnimationFrame）時，能拿到當前版本的用法
 
 **但核心 90 分鐘章節其實不需要它。** Flappy Kiro 是原生 HTML5 Canvas + JavaScript，沒有函式庫版本漂移問題，Kiro 內建知識就夠。
 
@@ -227,17 +233,7 @@ npx -y @playwright/mcp@latest --version
 
 **結論**：Playwright 必裝（章節指定用到）；Context7 列為選配加分，若要開就一定要配自己的 free API key，否則建議課堂上別開。
 
-### AWS 帳號（Deploy 章節需要）
-
-- 在 **AWS 官方活動**中會提供 sandbox 帳號，透過 Workshop Studio 的 **Get AWS CLI Credentials** 取得，**不需自備帳號**
-- 自行練習則需要**自己的 AWS 帳號**，並安裝 AWS CLI v2 與 Node.js（CDK 用）
-- Deploy 章節會用到 **Kiro Power**「Build AWS infrastructure with CDK and CloudFormation」，在 Kiro 裡一鍵安裝
-
-> **費用提醒**：核心章節全部在本機執行，**完全免費**。只有 Deploy 章節會建立 AWS 資源並產生費用。自行練習者請在結束後刪除所有資源。
-
-### Vercel / Netlify 帳號
-
-Deploy 章節也提供部署到 Vercel 或 Netlify 的選項，走這條路線才需要對應帳號。
+> **費用提醒**：本課程**全程在本機執行，完全免費**。不會建立任何 AWS 資源，因此不需要 AWS 帳號、AWS CLI，也沒有部署環節。你只需要一組免費的 AWS Builder ID 來登入 Kiro。
 
 ---
 
@@ -288,17 +284,18 @@ bash scripts/check-prereqs.sh
 
 ## Workshop 章節結構
 
-| 章節 | 內容 | 時間 |
-|---|---|---|
-| Start workshop | 安裝 Kiro、下載 starter kit、`git init` | 10 分 |
-| Create the application | 用 Spec 產生 requirements / design / tasks | 25 分 |
-| Build the application | 建立 steering files、執行 tasks 建出遊戲 | 15 分 |
-| Run Flappy Kiro! | 執行遊戲、修 bug、加功能 | — |
-| (Optional) Going further | Subagents、Checkpointing、Hooks、MCP、Skills、Powers、Kiro CLI | — |
-| (Optional) Deploy | 部署到 AWS / Vercel / Netlify | — |
-| Clean up / Summary | 清理資源、總結 | — |
+| # | 章節 | 內容 | 時間 |
+|---|---|---|---|
+| 1 | [開始 Workshop](docs/01-setup.md) | 安裝 Kiro、認識介面、取得 starter kit、`git init` | 10 分 |
+| 2 | [產生需求規格](docs/02-requirements.md) | 用 Spec 產生並精修 `requirements.md` | 25 分<br>（2-4 合計） |
+| 3 | [產生設計規格](docs/03-design.md) | 產生並精修 `design.md` | |
+| 4 | [產生實作任務](docs/04-tasks.md) | 產生並精修 `tasks.md` | |
+| 5 | [建立 Steering 檔案](docs/05-steering.md) | 定義專案慣例與程式標準 | 15 分<br>（5-6 合計） |
+| 6 | [建構應用程式](docs/06-build.md) | 執行 tasks，讓 Kiro 把遊戲做出來 | |
+| 7 | [執行 Flappy Kiro](docs/07-run.md) | 執行遊戲、修 bug、加功能 | — |
+| 8 | [（選配）更進一步](docs/08-going-further.md) | Subagents、Checkpointing、Hooks、MCP、Skills | — |
 
-> Going further 裡的 **Kiro CLI** 章節不在本次課程範圍，學員無需安裝 Kiro CLI。
+**本課程與 AWS 原版的差異**：移除了 Deploy 與 Clean up 章節，Going further 也移除了 Kiro CLI 與 Kiro Powers（兩者內容都聚焦在 AWS 部署）。因此**全程在本機執行、不需要 AWS 帳號、不會產生任何費用**。
 
 ---
 

@@ -4,7 +4,7 @@
 
 set -uo pipefail
 
-STARTER_KIT_URL='https://static.us-east-1.prod.workshops.aws/public/27a20e39-291b-4a68-8f58-89575b985e47/assets/kiro-introduction-starter-kit.zip'
+STARTER_KIT_URL='https://github.com/ParinLL/kiro-workshop-requirement'
 
 pass=0
 warn=0
@@ -72,13 +72,18 @@ else
   bad 'unzip 未安裝'
 fi
 
-# --- starter kit 連線 ---
-if command -v curl >/dev/null 2>&1; then
-  code="$(curl -s -o /dev/null -m 20 -w '%{http_code}' -r 0-0 "$STARTER_KIT_URL" || echo 000)"
-  if [ "$code" = "200" ] || [ "$code" = "206" ]; then
-    ok "Starter kit 下載網址可連線 (HTTP $code)"
+# --- starter kit ---
+# 若腳本是從 repo 內執行，starter-kit/ 應該就在旁邊；否則檢查能否連上 GitHub
+SK_DIR="$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)/starter-kit"
+if [ -f "$SK_DIR/assets/ghosty.png" ] && [ -f "$SK_DIR/img/example-ui.png" ]; then
+  n="$(find "$SK_DIR/assets" -type f ! -name 'README.md' 2>/dev/null | wc -l | tr -d ' ')"
+  ok "Starter kit 已在本機 (${SK_DIR}，assets 共 ${n} 個素材檔)"
+elif command -v curl >/dev/null 2>&1; then
+  code="$(curl -s -o /dev/null -m 20 -w '%{http_code}' "$STARTER_KIT_URL" || echo 000)"
+  if [ "$code" = "200" ]; then
+    note "本機未找到 starter-kit/，但 GitHub 可連線 (HTTP $code) — 建議行前 git clone 下來"
   else
-    bad "無法連線 starter kit (HTTP $code) — 檢查網路或防火牆"
+    bad "本機無 starter-kit/ 且無法連線 GitHub (HTTP $code) — 檢查網路或防火牆"
   fi
 fi
 
@@ -95,7 +100,7 @@ for host in app.kiro.dev assets.app.kiro.dev prod.us-east-1.auth.desktop.kiro.de
   fi
 done
 
-head1 '選配項目 (Going further / Deploy)'
+head1 '選配項目 (Going further)'
 
 # --- Node.js ---
 # 注意: nvm / fnm / volta / asdf 管理的 Node 在非互動 shell 中不會出現在 PATH,
@@ -156,13 +161,6 @@ if [ -n "$NODE_BIN" ]; then
   else
     note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
   fi
-fi
-
-# --- AWS CLI ---
-if command -v aws >/dev/null 2>&1; then
-  ok "AWS CLI 已安裝 ($(aws --version 2>&1 | awk '{print $1}'))"
-else
-  note 'AWS CLI 未安裝 — 只有自行做 Deploy 章節才需要'
 fi
 
 printf '\n%s\n' '========================================='

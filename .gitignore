@@ -1,0 +1,5 @@
+# Playwright MCP 產生的暫存快照
+.playwright-mcp/
+
+# OS
+.DS_Store

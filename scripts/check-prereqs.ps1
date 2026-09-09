@@ -9,7 +9,7 @@
 $ErrorActionPreference = 'Continue'
 $ProgressPreference = 'SilentlyContinue'
 
-$StarterKitUrl = 'https://static.us-east-1.prod.workshops.aws/public/27a20e39-291b-4a68-8f58-89575b985e47/assets/kiro-introduction-starter-kit.zip'
+$StarterKitUrl = 'https://github.com/ParinLL/kiro-workshop-requirement'
 
 $script:Pass = 0
 $script:Warn = 0
@@ -88,11 +88,18 @@ if (Get-Command Expand-Archive -ErrorAction SilentlyContinue) {
 }
 
 # --- starter kit ---
-$code = Test-Endpoint -Url $StarterKitUrl -TimeoutSec 20
-if ($code -eq 200) {
-    Write-Ok "Starter kit 下載網址可連線 (HTTP $code)"
+# 若腳本是從 repo 內執行，starter-kit\ 應該就在旁邊；否則檢查能否連上 GitHub
+$skDir = Join-Path (Split-Path -Parent $PSScriptRoot) 'starter-kit'
+if ((Test-Path (Join-Path $skDir 'assets\ghosty.png')) -and (Test-Path (Join-Path $skDir 'img\example-ui.png'))) {
+    $n = (Get-ChildItem (Join-Path $skDir 'assets') -File | Where-Object { $_.Name -ne 'README.md' }).Count
+    Write-Ok "Starter kit 已在本機 ($skDir, assets 共 $n 個素材檔)"
 } else {
-    Write-Bad "無法連線 starter kit (HTTP $code) — 檢查網路或防火牆"
+    $code = Test-Endpoint -Url $StarterKitUrl -TimeoutSec 20
+    if ($code -eq 200) {
+        Write-Note "本機未找到 starter-kit\, 但 GitHub 可連線 (HTTP $code) — 建議行前 git clone 下來"
+    } else {
+        Write-Bad "本機無 starter-kit\ 且無法連線 GitHub (HTTP $code) — 檢查網路或防火牆"
+    }
 }
 
 Write-Head 'Kiro 網路端點'
@@ -112,7 +119,7 @@ foreach ($h in $hosts) {
     }
 }
 
-Write-Head '選配項目 (Going further / Deploy)'
+Write-Head '選配項目 (Going further)'
 
 # --- Node.js ---
 if (Get-Command node -ErrorAction SilentlyContinue) {
@@ -152,13 +159,6 @@ if (Test-Path $npxCache) {
     }
 } else {
     Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
-}
-
-# --- AWS CLI ---
-if (Get-Command aws -ErrorAction SilentlyContinue) {
-    Write-Ok ("AWS CLI 已安裝 ({0})" -f ((aws --version 2>&1) -split ' ')[0])
-} else {
-    Write-Note 'AWS CLI 未安裝 — 只有自行做 Deploy 章節才需要'
 }
 
 Write-Host ""
