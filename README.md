@@ -1,0 +1,282 @@
+# Kiro Express Workshop — 學員行前準備清單
+
+本文件整理 [Kiro Express workshop](https://catalog.workshops.aws/kiro-express/en-US/) 的行前準備事項。
+
+Workshop 內容是用 Kiro 的 **spec-driven development** 流程，從零建出 **Flappy Kiro**（瀏覽器裡跑的無盡跑酷小遊戲，主角是幽靈 Ghosty）。核心章節約 **90 分鐘**。
+
+> **請務必在活動前完成「必備項目」**，特別是 Kiro IDE 安裝 + 登入。現場最常卡住的就是登入與企業防火牆。
+
+---
+
+## TL;DR
+
+| # | 項目 | 為什麼需要 |
+|---|---|---|
+| 1 | 筆電 + 系統管理員權限 | 要安裝 Kiro IDE |
+| 2 | AWS Builder ID（免費） | Kiro 登入用，不需 AWS 帳號 |
+| 3 | Kiro IDE 已安裝且登入成功 | 主要工具 |
+| 4 | Git（含 user.name / user.email） | 每個章節都會 commit |
+| 5 | curl + 解壓工具 | 下載 starter kit |
+| 6 | 現代瀏覽器 | 遊戲跑在瀏覽器裡 |
+| 7 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
+| 8 | （建議）預先下載 starter kit | 避免現場網路壅塞 |
+
+選配章節（Going further / Deploy）另需 Node.js、Kiro CLI、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
+
+---
+
+## 必備項目
+
+### 1. 筆電與作業系統
+
+需要**可安裝軟體的系統管理員權限**。Kiro IDE 支援：
+
+- **macOS** — Intel 或 Apple Silicon
+- **Windows** — 10 / 11（64-bit）
+- **Linux** — Ubuntu 24+、Debian 13+、Fedora 40+、Arch、Mint 22+
+
+建議規格：8 GB 以上 RAM、10 GB 以上可用磁碟空間。
+
+### 2. AWS Builder ID
+
+Workshop 使用 **AWS Builder ID** 登入 Kiro。
+
+- 免費，**不需要 AWS 帳號**，也不會產生任何費用
+- 建立 / 檢視：<https://profile.aws.amazon.com/>
+- 也可以用 Google / GitHub 登入，但 workshop 的教學步驟是以 Builder ID 為主
+
+**請在活動前先建好帳號並確認能登入。**
+
+### 3. Kiro IDE
+
+從 <https://kiro.dev/downloads/> 下載對應平台的安裝檔（撰寫時最新版為 IDE 1.0.437）。
+
+行前請完成：
+
+1. 安裝 Kiro
+2. 開啟 Kiro，選擇 **AWS Builder ID** 登入，確認登入成功
+3. 看到 welcome 畫面即代表安裝正常
+
+（可選）第一次啟動時可以匯入你的 VS Code 設定與擴充套件。
+
+### 4. Git
+
+Workshop 每完成一個階段都會 commit（`git init` / `git add` / `git commit`）。
+
+```bash
+git --version
+git config --global user.name   # 需有值
+git config --global user.email  # 需有值
+```
+
+若尚未設定：
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+### 5. curl 與解壓工具
+
+用來下載並解開 starter kit。
+
+- **macOS / Linux** — 系統內建 `curl` 與 `unzip`
+- **Windows** — 內建 `curl`，解壓用 PowerShell 的 `Expand-Archive`
+
+### 6. 現代瀏覽器
+
+Flappy Kiro 是網頁遊戲，需要瀏覽器執行與測試。Chrome、Edge、Safari、Firefox 皆可。若要做選配的 Playwright MCP 章節，**建議安裝 Chrome**。
+
+### 7. 網路 / 防火牆 / Proxy
+
+企業或校園網路請先請 IT 放行以下網域。清單依據 Kiro 官方文件 [Firewalls, proxies, and data perimeters](https://kiro.dev/docs/privacy-and-security/firewalls/)。
+
+**核心（必要）**
+
+```
+app.kiro.dev                                # 登入入口
+assets.app.kiro.dev                         # 應用資源
+```
+
+**Kiro IDE**
+
+```
+prod.us-east-1.auth.desktop.kiro.dev        # Token 交換 / 更新 / 登出
+prod.us-east-1.telemetry.desktop.kiro.dev   # Telemetry
+prod.download.desktop.kiro.dev              # 自動更新、Powers registry
+q.us-east-1.amazonaws.com                   # Kiro 服務（legacy，仍需放行）
+runtime.us-east-1.kiro.dev                  # Kiro 服務
+management.us-east-1.kiro.dev               # 設定與存取管理
+telemetry.us-east-1.kiro.dev                # Telemetry
+```
+
+歐洲區使用者請改用 / 併同放行 `*.eu-central-1.*` 對應端點。
+
+**若支援 wildcard 規則，可簡化為**
+
+```
+*.kiro.dev
+*.app.kiro.dev
+*.amazonaws.com
+```
+
+> 注意：部分防火牆的 wildcard 只比對單層子網域，`*.kiro.dev` 可能不涵蓋 `assets.app.kiro.dev`，需另外加上 `*.app.kiro.dev`。
+
+**用 Google / GitHub 登入才需要**
+
+```
+cognito-identity.us-east-1.amazonaws.com
+```
+
+**選配章節（MCP / Powers）**
+
+```
+github.com
+raw.githubusercontent.com
+open-vsx.org                                # 擴充套件
+openvsx.eclipsecontent.org
+```
+
+**Workshop 教材與素材**
+
+```
+catalog.workshops.aws
+static.us-east-1.prod.workshops.aws
+```
+
+**重要**：登入會開啟你的**預設瀏覽器**，這段流量走的是作業系統網路堆疊，**不受 Kiro 內的 proxy 設定影響**。防火牆必須在網路層放行。
+
+Kiro IDE 支援標準 proxy 環境變數 `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROXY`，也可在 Settings > Proxy 設定。
+
+### 8. （建議）預先下載 starter kit
+
+Starter kit 包含遊戲素材，現場才下載可能因網路壅塞而卡住。
+
+```bash
+curl 'https://static.us-east-1.prod.workshops.aws/public/27a20e39-291b-4a68-8f58-89575b985e47/assets/kiro-introduction-starter-kit.zip' \
+  -o kiro-introduction-starter-kit.zip
+```
+
+內容：
+
+```
+assets/ghosty.png       # 主角 Ghosty 的 sprite 圖
+assets/jump.wav         # 跳躍音效
+assets/game_over.wav    # 遊戲結束音效
+img/example-ui.png      # 遊戲介面示意圖（會當成 prompt 的參考圖）
+```
+
+Workshop 中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，把上述檔案解壓進去。
+
+---
+
+## 選配項目（Going further / Deploy 章節）
+
+以下只有做延伸章節才需要。若時間有限可略過，但**若打算做，請一併行前準備**。
+
+### Node.js（MCP 章節需要）
+
+MCP 章節會安裝 **Playwright MCP server**，透過 `npx` 執行，因此需要 Node.js。
+
+- 建議 Node.js 20 LTS 或以上
+- 驗證：`node --version` 與 `npx --version`
+- Playwright 首次啟動可能會下載瀏覽器（數百 MB），建議行前先跑一次暖機
+
+安裝方式：workshop 是從 [Kiro Server Directory](https://kiro.dev/) 按 **+ Add to Kiro** 一鍵加入，不需手動編輯設定檔。
+
+### Kiro CLI
+
+延伸章節會用 Kiro CLI 在終端機補測試。
+
+```bash
+curl -fsSL https://cli.kiro.dev/install | bash
+```
+
+支援平台：macOS、Windows 11（PowerShell）、Linux（glibc 2.34+ 或 musl）。
+
+安裝後登入並驗證：
+
+```bash
+kiro-cli login    # 選 "Use for Free with Builder ID"
+kiro-cli whoami
+```
+
+### AWS 帳號（Deploy 章節需要）
+
+- 在 **AWS 官方活動**中會提供 sandbox 帳號，透過 Workshop Studio 的 **Get AWS CLI Credentials** 取得，**不需自備帳號**
+- 自行練習則需要**自己的 AWS 帳號**，並安裝 AWS CLI v2 與 Node.js（CDK 用）
+- Deploy 章節會用到 **Kiro Power**「Build AWS infrastructure with CDK and CloudFormation」，在 Kiro 裡一鍵安裝
+
+> **費用提醒**：核心章節全部在本機執行，**完全免費**。只有 Deploy 章節會建立 AWS 資源並產生費用。自行練習者請在結束後刪除所有資源。
+
+### Vercel / Netlify 帳號
+
+Deploy 章節也提供部署到 Vercel 或 Netlify 的選項，走這條路線才需要對應帳號。
+
+---
+
+## 行前驗證
+
+倉庫內提供檢查腳本，執行後會列出各項目狀態。
+
+**macOS / Linux**
+
+```bash
+bash scripts/check-prereqs.sh
+```
+
+**Windows（PowerShell）**
+
+```powershell
+.\scripts\check-prereqs.ps1
+```
+
+手動確認清單：
+
+- [ ] Kiro IDE 已安裝，且能用 AWS Builder ID 成功登入
+- [ ] Kiro 的 Chat panel（`Cmd+L` / `Ctrl+L`）可以開啟並回應
+- [ ] `git --version` 有輸出，且 `user.name` / `user.email` 已設定
+- [ ] `curl --version` 有輸出
+- [ ] Starter kit 已下載（或確認能連上下載網址）
+- [ ] 瀏覽器可正常開啟本機頁面
+- [ ] （選配）`node --version` ≥ 20
+- [ ] （選配）`kiro-cli whoami` 能回傳身分
+
+---
+
+## 背景知識
+
+這是**中階** workshop。有應用程式設計概念與基本程式能力會比較順，但不是硬性要求 — 過程中 Kiro 會協助。適合對象：軟體工程師、low-code 轉型者，以及任何想體驗 AI 輔助開發的人。
+
+有以下經驗會更容易上手：
+
+- 用過 VS Code、JetBrains 或 Visual Studio 等開發環境
+- 基本 Git 操作
+- 基本終端機操作
+
+---
+
+## Workshop 章節結構
+
+| 章節 | 內容 | 時間 |
+|---|---|---|
+| Start workshop | 安裝 Kiro、下載 starter kit、`git init` | 10 分 |
+| Create the application | 用 Spec 產生 requirements / design / tasks | 25 分 |
+| Build the application | 建立 steering files、執行 tasks 建出遊戲 | 15 分 |
+| Run Flappy Kiro! | 執行遊戲、修 bug、加功能 | — |
+| (Optional) Going further | Subagents、Checkpointing、Hooks、MCP、Skills、Powers、CLI | — |
+| (Optional) Deploy | 部署到 AWS / Vercel / Netlify | — |
+| Clean up / Summary | 清理資源、總結 | — |
+
+---
+
+## 參考連結
+
+- Workshop：<https://catalog.workshops.aws/kiro-express/en-US/>
+- Kiro 官網：<https://kiro.dev/>
+- Kiro 下載：<https://kiro.dev/downloads/>
+- Kiro 文件：<https://kiro.dev/docs/>
+- 防火牆設定：<https://kiro.dev/docs/privacy-and-security/firewalls/>
+- AWS Builder ID：<https://profile.aws.amazon.com/>
+- Kiro Discord：<https://discord.gg/kirodotdev>
+- Kiro GitHub 範例：<https://github.com/kirodotdev>
