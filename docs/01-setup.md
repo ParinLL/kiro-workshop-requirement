@@ -12,7 +12,7 @@
 
 ## 1.1 安裝 Kiro 並認識它
 
-> 如果你已經在這台機器上安裝並使用過 Kiro，可直接跳到 [1.2 初始化專案](#12-初始化專案)。
+> 如果你已經在這台機器上安裝並使用過 Kiro，可直接跳到 [1.3 初始化專案](#13-初始化專案)。
 
 ### 用 AWS Builder ID 登入
 
@@ -38,7 +38,7 @@
 2. 依畫面指示完成授權
 3. 登入後，可選擇是否匯入你的 VS Code 設定與擴充套件
 
-其他登入方式（Google、GitHub、組織身分）請參考 [Authentication methods](https://kiro.dev/docs/) 文件。
+其他登入方式（Google、GitHub、組織身分）請參考 [Authentication methods](https://kiro.dev/docs/getting-started/authentication/) 文件。
 
 ---
 
@@ -58,7 +58,7 @@ Kiro 的介面主要由這幾塊組成：
 
 ### Chat panel
 
-[Chat panel](https://kiro.dev/docs/) 是用自然語言操作程式碼的地方，可以用來：
+[Chat panel](https://kiro.dev/docs/chat/) 是用自然語言操作程式碼的地方，可以用來：
 
 - 詢問程式碼相關問題
 - 要求產生或修改程式碼
@@ -91,7 +91,7 @@ Kiro panel 集中了 AI 專屬功能：
 
 **Agent Hooks** — 當 IDE 中發生特定事件時，自動執行預先定義的 agent 動作。與其每次手動要求例行工作，hooks 讓你針對檔案變更、送出 prompt、工具調用、任務執行等事件設定自動回應。
 
-**Agent Steering & Skills** — [Steering](https://kiro.dev/docs/) 用 markdown 檔案給 Kiro 關於你工作區的持久知識。不必每次對話都重述你的慣例，steering 檔案能確保 Kiro 一致遵循你既有的模式、函式庫與標準。[Skills](https://kiro.dev/docs/) 則是可攜的指令包，把指令、腳本與範本打包成可重複使用的單位，Kiro 會在與任務相關時自動啟用。Kiro 支援開放的 Agent Skills 標準，所以你能匯入社群或其他相容 AI 工具的 skill，也能把自己的 skill 分享給團隊。
+**Agent Steering & Skills** — [Steering](https://kiro.dev/docs/steering/) 用 markdown 檔案給 Kiro 關於你工作區的持久知識。不必每次對話都重述你的慣例，steering 檔案能確保 Kiro 一致遵循你既有的模式、函式庫與標準。[Skills](https://kiro.dev/docs/skills/) 則是可攜的指令包，把指令、腳本與範本打包成可重複使用的單位，Kiro 會在與任務相關時自動啟用。Kiro 支援開放的 Agent Skills 標準，所以你能匯入社群或其他相容 AI 工具的 skill，也能把自己的 skill 分享給團隊。
 
 **MCP** — [Model Context Protocol](https://kiro.dev/docs/mcp/) 透過連接專門的 server 來擴充 Kiro 的能力，讓它取得額外的工具與上下文。用 MCP 你可以存取專門的知識庫與文件、整合外部服務與 API、以特定領域工具擴充 Kiro，或為自己的工作流打造自訂工具。
 
@@ -135,7 +135,7 @@ Starter kit 放在本 repo 的 [`starter-kit/`](../starter-kit/) 目錄，約 1.
 
 ```bash
 curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.tar.gz \
-  | tar -xz --strip-components=2 '*/starter-kit'
+  | tar -xz --strip-components=2 kiro-workshop-requirement-main/starter-kit
 ```
 
 </details>
@@ -149,9 +149,11 @@ curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/
 ```powershell
 curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.zip -o repo.zip
 Expand-Archive -Path repo.zip -DestinationPath tmp
-Copy-Item -Path tmp\*\starter-kit\* -Destination . -Recurse -Force
+Get-ChildItem -Path tmp\kiro-workshop-requirement-main\starter-kit -Force | Move-Item -Destination .
 Remove-Item -Recurse -Force tmp, repo.zip
 ```
+
+> `-Force` 是必要的 — 少了它 PowerShell 會跳過 `.gitignore` 這類隱藏檔。
 
 </details>
 
