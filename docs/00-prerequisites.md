@@ -54,13 +54,6 @@
     git config --global user.email "you@example.com"
     ```
 
-    暖機 npx 快取，省下現場的下載時間：
-
-    ```bash
-    npx -y @playwright/mcp@latest --version   # 約 57 MB
-    npx -y serve --version                    # 約 16 MB
-    ```
-
 === "Windows"
 
     Windows 10 / 11 內建 `winget`（來自「應用程式安裝程式」）。以一般 PowerShell 執行：
@@ -79,13 +72,6 @@
     ```powershell
     git config --global user.name "你的名字"
     git config --global user.email "you@example.com"
-    ```
-
-    暖機 npx 快取：
-
-    ```powershell
-    npx -y @playwright/mcp@latest --version   # 約 57 MB
-    npx -y serve --version                    # 約 16 MB
     ```
 
 ---
@@ -374,13 +360,13 @@ MCP 章節指定使用 **Playwright MCP server**，從 [Kiro Server Directory](h
 
 所以真正的相依是**系統要有 Google Chrome**，不是下載 Chromium。
 
-行前暖機 npx 快取（省下現場 57 MB × 全班的下載量）：
+!!! note "教室頻寬要有心理準備"
 
-```bash
-npx -y @playwright/mcp@latest --version
-```
+    「+ Add to Kiro」寫進設定檔的指令是 `npx @playwright/mcp@latest`，套件會在
+    MCP server 第一次啟動時才下載，**每台機器約 57 MB**。30 人約 1.7 GB，
+    100 人約 5.7 GB，全部集中在同一個時段。
 
-> 教室網路是最大瓶頸：57 MB 乘上 30 人約 1.7 GB，乘上 100 人約 5.7 GB。這一步預先做完，MCP 章節可以從「等下載」變成「幾秒內 Connected」。
+    講師可考慮把 MCP 章節排在課程後段、分批進行，或事先確認場地頻寬。
 
 > **另一個現場陷阱**：Playwright MCP **預設封鎖 `file://` 協定**。若學員用瀏覽器直接開 `index.html`，MCP 會拒絕存取。做 MCP 章節時必須改用本機靜態伺服器 — 見下方[本機靜態伺服器](#local-server)。
 
@@ -400,13 +386,7 @@ npx -y @playwright/mcp@latest --version
 | **Python** | `python3 -m http.server 8000` | macOS 通常已有。**Windows 不內建** |
 | **Kiro 擴充套件** | 從 Open VSX 安裝 Live Server 類擴充 | 不用碰終端機，但屬第三方套件，課堂上多一個變數 |
 
-**為什麼推薦 `npx serve`**：Node 本來就在必備清單上，不必再多裝 Python。
-
-行前暖機：
-
-```bash
-npx -y serve --version
-```
+**為什麼推薦 `npx serve`**：Node 本來就在必備清單上，不必再多裝 Python。第一次執行會下載約 16 MB。
 
 若要走 Python 路線，兩個平台差異要注意：
 
@@ -507,8 +487,7 @@ npx -y serve --version
 - [ ] `node --version` ≥ 20
 - [ ] Google Chrome 已安裝
 - [ ] Starter kit 已取得（或確認能連上 GitHub）
-- [ ] 已執行 `npx -y @playwright/mcp@latest --version` 暖機
-- [ ] 已執行 `npx -y serve --version` 暖機
+
 - [ ] （選配）Context7 free API key 已取得並設為 `CONTEXT7_API_KEY`
 
 ---

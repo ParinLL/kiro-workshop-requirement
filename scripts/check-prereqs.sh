@@ -156,22 +156,12 @@ else
   note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome。macOS: brew install --cask google-chrome'
 fi
 
-# --- Playwright MCP 套件快取是否已暖機 ---
-if [ -n "$NODE_BIN" ]; then
-  if find "$HOME/.npm/_npx" -maxdepth 3 -type d -name '*playwright*' 2>/dev/null | grep -q . \
-     || find "$HOME/.npm/_npx" -maxdepth 4 -path '*@playwright*' 2>/dev/null | grep -q .; then
-    ok 'Playwright MCP 套件已在 npx 快取中（現場不需重新下載）'
-  else
-    note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
-  fi
-fi
-
 # --- 本機靜態伺服器（MCP 章節需要，因 Playwright MCP 封鎖 file://）---
+# 有 Node 就能用 npx serve；否則看有沒有可用的 python3
 srv_found=''
-if [ -n "$NODE_BIN" ] && find "$HOME/.npm/_npx" -maxdepth 4 -type d -name 'serve' 2>/dev/null | grep -q .; then
-  srv_found='npx serve（已快取）'
-fi
-if [ -z "$srv_found" ]; then
+if [ -n "$NODE_BIN" ]; then
+  srv_found='npx serve（需 Node，首次執行會下載約 16 MB）'
+else
   for p in "$(command -v python3 2>/dev/null)" /usr/bin/python3 /opt/homebrew/bin/python3; do
     if [ -n "$p" ] && [ -x "$p" ]; then
       srv_found="python3 ($("$p" --version 2>&1 | awk '{print $2}'))"
@@ -182,7 +172,7 @@ fi
 if [ -n "$srv_found" ]; then
   ok "本機靜態伺服器可用 — ${srv_found}"
 else
-  note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。建議行前執行: npx -y serve --version'
+  note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。裝好 Node 即可用 npx serve'
 fi
 
 printf '\n%s\n' '========================================='

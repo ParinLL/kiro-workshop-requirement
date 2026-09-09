@@ -128,10 +128,12 @@ foreach ($h in $hosts) {
 Write-Head '開發工具'
 
 # --- Node.js ---
+$nodeOk = $false
 if (Get-Command node -ErrorAction SilentlyContinue) {
     $nv = (node --version).TrimStart('v')
     $major = [int]($nv -split '\.')[0]
     if ($major -ge 20) {
+        $nodeOk = $true
         Write-Ok "Node.js v$nv"
     } else {
         Write-Note "Node.js v$nv 版本偏舊，建議升級到 20 LTS 以上"
@@ -153,20 +155,6 @@ if ($chrome) {
     Write-Note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome。winget install Google.Chrome'
 }
 
-# --- Playwright MCP 套件快取是否已暖機 ---
-$npxCache = "$env:APPDATA\npm-cache\_npx"
-if (Test-Path $npxCache) {
-    $cached = Get-ChildItem $npxCache -Recurse -Depth 3 -Directory -ErrorAction SilentlyContinue |
-              Where-Object { $_.Name -like '*playwright*' } | Select-Object -First 1
-    if ($cached) {
-        Write-Ok 'Playwright MCP 套件已在 npx 快取中（現場不需重新下載）'
-    } else {
-        Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
-    }
-} else {
-    Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
-}
-
 # --- 本機靜態伺服器（MCP 章節需要，因 Playwright MCP 封鎖 file://）---
 # 注意：Windows 的 python3.exe 常常是 0 byte 的 App Execution Alias stub
 # （C:\Users\<user>\AppData\Local\Microsoft\WindowsApps\python3.exe）。
@@ -186,17 +174,17 @@ function Get-RealPython {
     return $null
 }
 
+# 有 Node 就能用 npx serve；否則看有沒有真正可用的 python
 $srv = $null
-if ((Test-Path $npxCache) -and (Get-ChildItem $npxCache -Recurse -Depth 4 -Directory -ErrorAction SilentlyContinue |
-      Where-Object { $_.Name -eq 'serve' } | Select-Object -First 1)) {
-    $srv = 'npx serve（已快取）'
+if ($nodeOk) {
+    $srv = 'npx serve（需 Node，首次執行會下載約 16 MB）'
 } else {
     $srv = Get-RealPython
 }
 if ($srv) {
     Write-Ok "本機靜態伺服器可用 — $srv"
 } else {
-    Write-Note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。Windows 不內建 Python，建議行前執行: npx -y serve --version'
+    Write-Note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。Windows 不內建 Python，裝好 Node 即可用 npx serve'
 }
 
 Write-Host ""
