@@ -103,64 +103,52 @@ Kiro panel 集中了 AI 專屬功能：
 
 ### 建立空白專案
 
-<details open>
-<summary><b>macOS</b></summary>
+=== "macOS"
 
-1. 在 Kiro 中，用 **File > Open Folder...** 開啟新資料夾
-2. 切換到你要放專案的目錄，選 **New Folder**
-3. 命名為 `kiro-introduction`，選 **Create**
-4. 選 **Open**
-5. 若出現提示，勾選 **Trust the authors**，再選 **Yes, I trust the authors**
+    1. 在 Kiro 中，用 **File > Open Folder...** 開啟新資料夾
+    2. 切換到你要放專案的目錄，選 **New Folder**
+    3. 命名為 `kiro-introduction`，選 **Create**
+    4. 選 **Open**
+    5. 若出現提示，勾選 **Trust the authors**，再選 **Yes, I trust the authors**
 
-</details>
+=== "Windows"
 
-<details>
-<summary><b>Windows</b></summary>
-
-1. 在 Kiro 中，用 **File > Open Folder...** 開啟新資料夾
-2. 切換到你要放專案的目錄，右鍵選 **New > Folder**
-3. 命名為 `kiro-introduction`
-4. 選 **Select Folder**
-5. 若出現提示，勾選 **Trust the authors**，再選 **Yes, I trust the authors**
-
-</details>
+    1. 在 Kiro 中，用 **File > Open Folder...** 開啟新資料夾
+    2. 切換到你要放專案的目錄，右鍵選 **New > Folder**
+    3. 命名為 `kiro-introduction`
+    4. 選 **Select Folder**
+    5. 若出現提示，勾選 **Trust the authors**，再選 **Yes, I trust the authors**
 
 ### 下載專案素材
 
 Starter kit 放在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。
 
-<details open>
-<summary><b>macOS</b></summary>
+=== "macOS"
 
-1. 用 **Terminal > New Terminal** 選單開啟新的終端機視窗
-2. 取得 starter kit 並把內容搬進你的專案資料夾：
+    1. 用 **Terminal > New Terminal** 選單開啟新的終端機視窗
+    2. 取得 starter kit 並把內容搬進你的專案資料夾：
 
-```bash
-curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.tar.gz \
-  | tar -xz --strip-components=2 kiro-workshop-requirement-main/starter-kit
-```
+    ```bash
+    curl -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.tar.gz \
+      | tar -xz --strip-components=2 kiro-workshop-requirement-main/starter-kit
+    ```
 
-</details>
+=== "Windows"
 
-<details>
-<summary><b>Windows（PowerShell）</b></summary>
+    1. 用 **Terminal > New Terminal** 選單開啟新的終端機視窗
+    2. 取得 starter kit 並把內容搬進你的專案資料夾：
 
-1. 用 **Terminal > New Terminal** 選單開啟新的終端機視窗
-2. 取得 starter kit 並把內容搬進你的專案資料夾：
+    ```powershell
+    curl.exe -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.zip -o repo.zip
+    Expand-Archive -Path repo.zip -DestinationPath tmp
+    Get-ChildItem -Path tmp\kiro-workshop-requirement-main\starter-kit -Force | Move-Item -Destination .
+    Remove-Item -Recurse -Force tmp, repo.zip
+    ```
 
-```powershell
-curl.exe -L https://github.com/ParinLL/kiro-workshop-requirement/archive/refs/heads/main.zip -o repo.zip
-Expand-Archive -Path repo.zip -DestinationPath tmp
-Get-ChildItem -Path tmp\kiro-workshop-requirement-main\starter-kit -Force | Move-Item -Destination .
-Remove-Item -Recurse -Force tmp, repo.zip
-```
+    兩個容易踩到的細節，都是在真實 Windows 上驗過的：
 
-兩個容易踩到的細節，都是在真實 Windows 上驗過的：
-
-- **一定要寫 `curl.exe`，不能只寫 `curl`**。Windows PowerShell 5.1 把 `curl` 設成 `Invoke-WebRequest` 的別名，它不認得 `-L` 與 `-o`，指令會靜默失敗、什麼都沒下載
-- **`-Force` 是必要的** — 少了它 `Get-ChildItem` 會跳過 `.gitignore` 這類檔案
-
-</details>
+    - **一定要寫 `curl.exe`，不能只寫 `curl`**。Windows PowerShell 5.1 把 `curl` 設成 `Invoke-WebRequest` 的別名，它不認得 `-L` 與 `-o`，指令會靜默失敗、什麼都沒下載
+    - **`-Force` 是必要的** — 少了它 `Get-ChildItem` 會跳過 `.gitignore` 這類檔案
 
 > **行前已下載過的話**：直接把 `starter-kit/` 裡的 `assets/`、`img/`、`README.md`、`LICENCE.md`、`.gitignore` 複製進 `kiro-introduction` 資料夾即可，不用重新抓。
 
