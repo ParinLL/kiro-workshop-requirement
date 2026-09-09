@@ -89,6 +89,13 @@ plugins:
       lang:
         - en
         - ja
+      # 關閉 stemmer（預設是 ['stemmer']）。
+      # 原因：Material 查詢時會在最後一個詞加上 * 做前綴比對，而 lunr 對含
+      # wildcard 的詞「不套用 pipeline」。結果是索引裡存的是詞幹（steering →
+      # steer），查詢卻用原形去比對，搜「steering」得到 0 筆、搜「steer」才有。
+      # 本站的英文關鍵字多是產品與功能名稱（Kiro / steering / spec / MCP /
+      # hooks / subagents），使用者會照文件上看到的字打，保留原形比詞幹有用。
+      pipeline: []
 
 extra:
   social:

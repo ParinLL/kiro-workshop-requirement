@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
     Kiro Express workshop - 行前環境檢查 (Windows)
@@ -8,6 +8,9 @@
 
 $ErrorActionPreference = 'Continue'
 $ProgressPreference = 'SilentlyContinue'
+
+# 讓中文在輸出被重導向時也不會變亂碼（預設會用 ANSI codepage，zh-TW 是 CP950）
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
 $StarterKitUrl = 'https://github.com/ParinLL/kiro-workshop-requirement'
 
@@ -165,14 +168,30 @@ if (Test-Path $npxCache) {
 }
 
 # --- 本機靜態伺服器（MCP 章節需要，因 Playwright MCP 封鎖 file://）---
+# 注意：Windows 的 python3.exe 常常是 0 byte 的 App Execution Alias stub
+# （C:\Users\<user>\AppData\Local\Microsoft\WindowsApps\python3.exe）。
+# Get-Command 會成功，但實際執行回 exit code 9009 且無輸出。
+# 因此必須真的執行一次並驗證輸出，不能只看 Get-Command。
+function Get-RealPython {
+    foreach ($name in 'python3', 'python') {
+        $cmd = Get-Command $name -ErrorAction SilentlyContinue
+        if (-not $cmd) { continue }
+        # 0 byte 的可執行檔一定是 App Execution Alias stub
+        if ($cmd.Source -and (Test-Path $cmd.Source) -and (Get-Item $cmd.Source).Length -eq 0) { continue }
+        $ver = & $name --version 2>&1
+        if ($LASTEXITCODE -eq 0 -and "$ver" -match '(\d+\.\d+\.\d+)') {
+            return "$name ($($Matches[1]))"
+        }
+    }
+    return $null
+}
+
 $srv = $null
 if ((Test-Path $npxCache) -and (Get-ChildItem $npxCache -Recurse -Depth 4 -Directory -ErrorAction SilentlyContinue |
       Where-Object { $_.Name -eq 'serve' } | Select-Object -First 1)) {
     $srv = 'npx serve（已快取）'
-} elseif (Get-Command python3 -ErrorAction SilentlyContinue) {
-    $srv = "python3 ($((python3 --version 2>&1) -split ' ' | Select-Object -Last 1))"
-} elseif (Get-Command python -ErrorAction SilentlyContinue) {
-    $srv = "python ($((python --version 2>&1) -split ' ' | Select-Object -Last 1))"
+} else {
+    $srv = Get-RealPython
 }
 if ($srv) {
     Write-Ok "本機靜態伺服器可用 — $srv"
