@@ -87,6 +87,9 @@ if (Get-Command Expand-Archive -ErrorAction SilentlyContinue) {
     Write-Bad 'Expand-Archive 不可用 — 需要 PowerShell 5.0 以上'
 }
 
+# --- 音訊輸出提醒 ---
+Write-Note '遊戲有音效與背景音樂 — 教室環境建議自備耳機'
+
 # --- starter kit ---
 # 若腳本是從 repo 內執行，starter-kit\ 應該就在旁邊；否則檢查能否連上 GitHub
 $skDir = Join-Path (Split-Path -Parent $PSScriptRoot) 'starter-kit'
@@ -159,6 +162,22 @@ if (Test-Path $npxCache) {
     }
 } else {
     Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
+}
+
+# --- 本機靜態伺服器（MCP 章節需要，因 Playwright MCP 封鎖 file://）---
+$srv = $null
+if ((Test-Path $npxCache) -and (Get-ChildItem $npxCache -Recurse -Depth 4 -Directory -ErrorAction SilentlyContinue |
+      Where-Object { $_.Name -eq 'serve' } | Select-Object -First 1)) {
+    $srv = 'npx serve（已快取）'
+} elseif (Get-Command python3 -ErrorAction SilentlyContinue) {
+    $srv = "python3 ($((python3 --version 2>&1) -split ' ' | Select-Object -Last 1))"
+} elseif (Get-Command python -ErrorAction SilentlyContinue) {
+    $srv = "python ($((python --version 2>&1) -split ' ' | Select-Object -Last 1))"
+}
+if ($srv) {
+    Write-Ok "本機靜態伺服器可用 — $srv"
+} else {
+    Write-Note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。Windows 不內建 Python，建議行前執行: npx -y serve --version'
 }
 
 Write-Host ""

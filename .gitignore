@@ -1,3 +1,6 @@
+# MkDocs 建置輸出
+site/
+
 # Playwright MCP 產生的暫存快照
 .playwright-mcp/
 

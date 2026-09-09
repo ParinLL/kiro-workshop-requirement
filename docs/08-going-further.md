@@ -6,15 +6,17 @@
 
 | 主題 | 內容 |
 |---|---|
-| [8.1 Subagents](#81-subagents) | 用平行執行與專門化 agent 加速開發 |
-| [8.2 Checkpointing](#82-checkpointing) | 儲存與還原 agent 狀態 |
-| [8.3 Hooks](#83-hooks) | 自動執行品質檢查與維護工作 |
-| [8.4 MCP servers](#84-mcp-servers) | 透過 Model Context Protocol 連接外部服務 |
-| [8.5 Skills](#85-skills) | 打包可重用的指令，讓 Kiro 在相關時自動啟用 |
+| [8.1 Subagents](#subagents) | 用平行執行與專門化 agent 加速開發 |
+| [8.2 Checkpointing](#checkpointing) | 儲存與還原 agent 狀態 |
+| [8.3 Hooks](#hooks) | 自動執行品質檢查與維護工作 |
+| [8.4 MCP servers](#mcp) | 透過 Model Context Protocol 連接外部服務 |
+| [8.5 Skills](#skills) | 打包可重用的指令，讓 Kiro 在相關時自動啟用 |
 
 > **本課程範圍說明**：AWS 原版的 Going further 還有 **Kiro Powers** 與 **Kiro CLI** 兩節，內容都聚焦在 AWS 部署，因此本課程未納入。有興趣可自行參考 [Kiro 官方文件](https://kiro.dev/docs/)。
 
 ---
+
+<a id="subagents"></a>
 
 ## 8.1 Subagents
 
@@ -70,6 +72,8 @@ model: claude-sonnet-4
 
 建立後，你可以用 `用 code-reviewer subagent 找出我程式碼中的效能問題` 來呼叫它，或透過 `/code-reviewer` slash command。
 
+<a id="doc-research"></a>
+
 ### 用 subagents 做文件研究
 
 ```
@@ -99,6 +103,8 @@ model: claude-sonnet-4
 你學會用 subagent 平行化任務、建立自訂的專門 agent，並透過並行執行大幅加速開發流程。
 
 ---
+
+<a id="checkpointing"></a>
 
 ## 8.2 Checkpointing
 
@@ -145,6 +151,8 @@ model: claude-sonnet-4
 你使用了 Kiro 的 checkpointing 功能來安全地實驗程式碼變更，並把檔案還原到先前的狀態。Checkpoint 讓你能嘗試不同做法、評估結果、必要時回捲 — 在不冒著失去可用程式碼的風險下進行迭代開發。
 
 ---
+
+<a id="hooks"></a>
 
 ## 8.3 Hooks
 
@@ -249,6 +257,8 @@ commit message 依實際變更內容產生描述性的說明。
 
 ---
 
+<a id="mcp"></a>
+
 ## 8.4 MCP servers
 
 [Model Context Protocol](https://kiro.dev/docs/mcp/)（MCP）透過連接專門的 server 來擴充 Kiro 的能力，讓它取得額外的工具與上下文。
@@ -297,7 +307,9 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 > 如果你用瀏覽器直接開啟 `index.html`，Playwright MCP 會拒絕存取並回報錯誤。請改用本機靜態伺服器：
 >
 > ```bash
-> python3 -m http.server 8000
+> npx -y serve -l 8000        # 推薦，跨平台一致
+> # 或
+> python3 -m http.server 8000 # macOS / Linux；Windows 不內建 Python
 > ```
 >
 > 然後讓 Playwright 檢查 `http://localhost:8000`。
@@ -308,7 +320,7 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 
 [Context7](https://context7.com/) 提供任何函式庫與框架的**即時最新文件**，同樣可從 [Kiro Server Directory](https://kiro.dev/docs/mcp/servers/) 一鍵安裝。
 
-它和 [8.1 的 subagents 文件研究](#用-subagents-做文件研究)搭配特別有用 — 想深入 Canvas 2D、Web Audio 或 `requestAnimationFrame` 的當前用法時，能拿到準確的資料而不是模型的舊記憶。
+它和 [8.1 的 subagents 文件研究](#doc-research)搭配特別有用 — 想深入 Canvas 2D、Web Audio 或 `requestAnimationFrame` 的當前用法時，能拿到準確的資料而不是模型的舊記憶。
 
 > **注意 rate limit**：不帶 API key 也能使用，但匿名額度是**按 IP** 計算。如果整間教室走同一個對外 IP，很容易撞到限制。建議在 [context7.com/dashboard](https://context7.com/dashboard) 申請免費 API key，設為環境變數 `CONTEXT7_API_KEY`。
 
@@ -351,6 +363,8 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 你把 MCP server 整合進 Kiro，提供強大的擴充能力，Kiro 會在需要時自動使用它們。
 
 ---
+
+<a id="skills"></a>
 
 ## 8.5 Skills
 
@@ -476,4 +490,4 @@ description: 產生 Flappy Kiro 遊戲實體類別骨架，包含 physics、rend
 
 ---
 
-[← 上一章：執行 Flappy Kiro](07-run.md) | [回到首頁](../README.md)
+[← 上一章：執行 Flappy Kiro](07-run.md) | [回到課程首頁](index.md)

@@ -1,0 +1,102 @@
+site_name: Kiro Workshop
+site_description: 用 Flappy Kiro 學 AI 輔助開發 — Kiro 實作課程（正體中文）
+site_url: https://parinll.github.io/kiro-workshop-requirement/
+repo_url: https://github.com/ParinLL/kiro-workshop-requirement
+repo_name: ParinLL/kiro-workshop-requirement
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: zh-TW
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - search.highlight
+    - search.share
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: 跟隨系統設定
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: 切換到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: 切換到淺色模式
+
+nav:
+  - 課程首頁: index.md
+  - 第 0 章 — 行前準備: 00-prerequisites.md
+  - 第 1 章 — 開始 Workshop: 01-setup.md
+  - 第 2 章 — 產生需求規格: 02-requirements.md
+  - 第 3 章 — 產生設計規格: 03-design.md
+  - 第 4 章 — 產生實作任務: 04-tasks.md
+  - 第 5 章 — 建立 Steering 檔案: 05-steering.md
+  - 第 6 章 — 建構應用程式: 06-build.md
+  - 第 7 章 — 執行 Flappy Kiro: 07-run.md
+  - 第 8 章 — （選配）更進一步: 08-going-further.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+      # python-markdown 預設的 slugify 會剝掉非 ASCII 字元，中文標題的 id 會變成
+      # _1 / _2 這種無意義值。改用保留 unicode 並轉小寫的 pymdownx 版本，
+      # 產生的 anchor 才會與 GitHub 上的一致。
+      # 注意 PyYAML 的關鍵字參數欄位叫 kwds（不是 kwargs），寫錯會被靜默忽略。
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search:
+      # lunr 沒有中文語言包，但 ja 會載入 TinySegmenter，能在瀏覽器端切分 CJK。
+      # 這是目前中文站台可用的最佳組合 — 詳見 requirements-docs.txt 的說明
+      # （關鍵是不要安裝 jieba，否則建置端與查詢端的切詞方式會打架）。
+      lang:
+        - en
+        - ja
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ParinLL/kiro-workshop-requirement
+      name: GitHub repository
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/kirodotdev
+      name: Kiro Discord 社群
+
+copyright: 改寫自 AWS Kiro Express workshop，素材授權 MIT-0

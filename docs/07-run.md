@@ -4,6 +4,8 @@
 
 ---
 
+<a id="run-game"></a>
+
 ## 7.1 執行遊戲
 
 在 Kiro chat panel 中，指示 Kiro 啟動應用程式並確認它正在運行。
@@ -19,9 +21,9 @@ Flappy Kiro 是純前端的網頁遊戲，有兩種跑法：
 | 方式 | 做法 | 注意事項 |
 |---|---|---|
 | **直接開檔** | 用瀏覽器開啟 `index.html` | 最簡單。前提是程式沒有使用 ES module（`import` / `export`），因為 `file://` 下的 module 載入在各瀏覽器行為不一致 |
-| **本機靜態伺服器** | 例如 `python3 -m http.server`，然後開 `http://localhost:8000` | 比較保險，`localStorage` 與音訊載入的行為和正式環境一致 |
+| **本機靜態伺服器** | `npx -y serve -l 8000` 或 `python3 -m http.server 8000`，然後開 `http://localhost:8000` | 比較保險，`localStorage` 與音訊載入的行為和正式環境一致 |
 
-> **如果你打算做[第 8 章的 MCP 章節](08-going-further.md#84-mcp-servers)，請用本機靜態伺服器**。Playwright MCP 預設封鎖 `file://` 協定，直接開檔的話 MCP 無法檢查你的頁面。用 `http://localhost` 就沒這個問題。
+> **如果你打算做[第 8 章的 MCP 章節](08-going-further.md#mcp)，請用本機靜態伺服器**。Playwright MCP 預設封鎖 `file://` 協定，直接開檔的話 MCP 無法檢查你的頁面。用 `http://localhost` 就沒這個問題。
 
 ---
 

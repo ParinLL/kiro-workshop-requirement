@@ -16,8 +16,9 @@
 | 4 | Git（含 user.name / user.email） | 每個章節都會 commit |
 | 5 | curl + 解壓工具 | 取得 starter kit |
 | 6 | 現代瀏覽器 | 遊戲跑在瀏覽器裡 |
-| 7 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
-| 8 | （建議）預先取得 starter kit | 避免現場網路壅塞 |
+| 7 | 耳機（建議） | 遊戲有音效，教室裡會很吵 |
+| 8 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
+| 9 | （建議）預先取得 starter kit | 避免現場網路壅塞 |
 
 選配的 [Going further 章節](08-going-further.md)另需 Node.js 20+ 與 **Google Chrome** — 見下方[選配項目](#optional)。
 
@@ -80,16 +81,20 @@ git config --global user.email "you@example.com"
 
 ### 5. curl 與解壓工具
 
-用來取得並解開 starter kit。
+用來取得並解開 starter kit。兩個平台都是系統內建，通常不需額外安裝。
 
-- **macOS / Linux** — 系統內建 `curl` 與 `unzip`
+- **macOS / Linux** — 內建 `curl` 與 `tar`
 - **Windows** — 內建 `curl`，解壓用 PowerShell 的 `Expand-Archive`
 
 ### 6. 現代瀏覽器
 
 Flappy Kiro 是網頁遊戲，需要瀏覽器執行與測試。Chrome、Edge、Safari、Firefox 皆可。若要做選配的 Playwright MCP 章節，**必須安裝 Chrome**。
 
-### 7. 網路 / 防火牆 / Proxy
+### 7. 耳機（建議）
+
+遊戲有拍翅、計分、碰撞三種音效，還有循環播放的背景音樂。**一整間教室同時開音效會很吵**，建議自備耳機，這樣你才聽得出自己做的音效回饋對不對。
+
+### 8. 網路 / 防火牆 / Proxy
 
 企業或校園網路請先請 IT 放行以下網域。清單依據 Kiro 官方文件 [Firewalls, proxies, and data perimeters](https://kiro.dev/docs/privacy-and-security/firewalls/)。
 
@@ -149,9 +154,9 @@ openvsx.eclipsecontent.org
 
 Kiro IDE 支援標準 proxy 環境變數 `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROXY`，也可在 Settings > Proxy 設定。
 
-### 8. （建議）預先取得 starter kit
+### 9. （建議）預先取得 starter kit
 
-Starter kit 就在本 repo 的 [`starter-kit/`](../starter-kit/) 目錄，約 1.6 MB。現場才下載可能因網路壅塞而卡住，建議行前先抓。
+Starter kit 就在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。現場才下載可能因網路壅塞而卡住，建議行前先抓。
 
 最簡單的方式是直接 clone 整個 repo（教材與素材一次到手）：
 
@@ -173,7 +178,7 @@ LICENCE.md
 .gitignore
 ```
 
-課程中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，把上述檔案放進去。素材的詳細規格見 [starter-kit/README.md](../starter-kit/README.md)。
+課程中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，把上述檔案放進去。素材的詳細規格見 [starter-kit/README.md](https://github.com/ParinLL/kiro-workshop-requirement/blob/main/starter-kit/README.md)。
 
 ---
 
@@ -214,7 +219,36 @@ npx -y @playwright/mcp@latest --version
 
 > 教室網路是最大瓶頸：57 MB 乘上 30 人約 1.7 GB，乘上 100 人約 5.7 GB。這一步預先做完，MCP 章節可以從「等下載」變成「幾秒內 Connected」。
 
-> **另一個現場陷阱**：Playwright MCP **預設封鎖 `file://` 協定**。若學員用瀏覽器直接開 `index.html`，MCP 會拒絕存取。請在 MCP 章節改用本機靜態伺服器（`python3 -m http.server`），詳見[第 7 章](07-run.md#71-執行遊戲)。
+> **另一個現場陷阱**：Playwright MCP **預設封鎖 `file://` 協定**。若學員用瀏覽器直接開 `index.html`，MCP 會拒絕存取。做 MCP 章節時必須改用本機靜態伺服器 — 見下方[本機靜態伺服器](#local-server)。
+
+<a id="local-server"></a>
+
+### 本機靜態伺服器（做 MCP 章節才需要）
+
+遊戲本身用瀏覽器直接開 `index.html` 就能跑。但 Playwright MCP 預設封鎖 `file://`，所以**只有做 MCP 章節時**才需要一個本機伺服器。
+
+實測結果：`file://` 被 MCP 拒絕，`http://localhost` 正常存取。
+
+三種做法，依推薦順序：
+
+| 做法 | 指令 | 成本與限制 |
+|---|---|---|
+| **`npx serve`**（推薦） | `npx -y serve -l 8000` | 需要 Node。冷啟動下載約 **16 MB**，跨平台一致 |
+| **Python** | `python3 -m http.server 8000` | macOS / Linux 通常已有。**Windows 不內建 Python** |
+| **Kiro 擴充套件** | 從 Open VSX 安裝 Live Server 類擴充 | 不用碰終端機，但屬第三方套件，課堂上多一個變數 |
+
+**為什麼推薦 `npx serve`**：做 MCP 章節本來就得裝 Node（Playwright MCP 需要），所以不必再多裝 Python。一個相依打兩件事。
+
+若要走 Python 路線，注意兩個平台差異：
+
+- **Windows** — 完全不內建 `python3`，需另外安裝
+- **macOS** — `/usr/bin/python3` 是 Xcode Command Line Tools 提供的。若機器沒裝過 CLT，第一次執行會跳出安裝對話框，那個下載不小。可先用 `python3 --version` 確認
+
+行前暖機（和 Playwright MCP 一起做）：
+
+```bash
+npx -y serve --version
+```
 
 #### Context7 MCP — 原版沒提到，但值得加
 
@@ -222,7 +256,7 @@ npx -y @playwright/mcp@latest --version
 
 **加分在哪：**
 
-- [Going further 的 subagents 章節](08-going-further.md#用-subagents-做文件研究)明確要「平行抓取多個文件來源」，Context7 正好是這個用途
+- [Going further 的 subagents 章節](08-going-further.md#doc-research)明確要「平行抓取多個文件來源」，Context7 正好是這個用途
 - 學員若讓 Kiro 改用遊戲框架（Phaser、Kaboom.js、PixiJS），Context7 能給到當前版本的 API。實測查 `phaser` 會回 `/phaserjs/phaser`，2296 個 code snippets
 - 想深入某個瀏覽器 API（Canvas 2D、Web Audio、`requestAnimationFrame`）時，能拿到當前版本的用法
 
@@ -265,6 +299,7 @@ bash scripts/check-prereqs.sh
 - [ ] （選配）`node --version` ≥ 20
 - [ ] （選配）Google Chrome 已安裝（Playwright MCP 需要）
 - [ ] （選配）已執行 `npx -y @playwright/mcp@latest --version` 暖機
+- [ ] （選配）已執行 `npx -y serve --version` 暖機（本機靜態伺服器）
 - [ ] （選配）Context7 free API key 已取得並設為 `CONTEXT7_API_KEY`
 
 > 若你用 nvm / fnm / volta / asdf 管理 Node，注意這些版本管理器在非互動 shell 中不會載入，Kiro 的 MCP 設定可能需要填 node 的**絕對路徑**。檢查腳本會偵測並提醒。
@@ -283,4 +318,4 @@ bash scripts/check-prereqs.sh
 
 ---
 
-[回到首頁](../README.md) | [下一章：開始 Workshop →](01-setup.md)
+[回到課程首頁](index.md) | [下一章：開始 Workshop →](01-setup.md)

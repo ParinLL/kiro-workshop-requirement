@@ -65,12 +65,15 @@ else
   bad 'curl 未安裝'
 fi
 
-# --- unzip ---
-if command -v unzip >/dev/null 2>&1; then
-  ok 'unzip 已安裝'
+# --- tar（starter kit 解壓用）---
+if command -v tar >/dev/null 2>&1; then
+  ok 'tar 已安裝'
 else
-  bad 'unzip 未安裝'
+  bad 'tar 未安裝'
 fi
+
+# --- 音訊輸出提醒 ---
+note '遊戲有音效與背景音樂 — 教室環境建議自備耳機'
 
 # --- starter kit ---
 # 若腳本是從 repo 內執行，starter-kit/ 應該就在旁邊；否則檢查能否連上 GitHub
@@ -161,6 +164,25 @@ if [ -n "$NODE_BIN" ]; then
   else
     note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
   fi
+fi
+
+# --- 本機靜態伺服器（MCP 章節需要，因 Playwright MCP 封鎖 file://）---
+srv_found=''
+if [ -n "$NODE_BIN" ] && find "$HOME/.npm/_npx" -maxdepth 4 -type d -name 'serve' 2>/dev/null | grep -q .; then
+  srv_found='npx serve（已快取）'
+fi
+if [ -z "$srv_found" ]; then
+  for p in "$(command -v python3 2>/dev/null)" /usr/bin/python3 /opt/homebrew/bin/python3; do
+    if [ -n "$p" ] && [ -x "$p" ]; then
+      srv_found="python3 ($("$p" --version 2>&1 | awk '{print $2}'))"
+      break
+    fi
+  done
+fi
+if [ -n "$srv_found" ]; then
+  ok "本機靜態伺服器可用 — ${srv_found}"
+else
+  note '找不到本機靜態伺服器 — MCP 章節需要（Playwright MCP 封鎖 file://）。建議行前執行: npx -y serve --version'
 fi
 
 printf '\n%s\n' '========================================='

@@ -12,7 +12,7 @@
 
 ## 1.1 安裝 Kiro 並認識它
 
-> 如果你已經在這台機器上安裝並使用過 Kiro，可直接跳到 [1.3 初始化專案](#13-初始化專案)。
+> 如果你已經在這台機器上安裝並使用過 Kiro，可直接跳到 [1.3 初始化專案](#init-project)。
 
 ### 用 AWS Builder ID 登入
 
@@ -97,6 +97,8 @@ Kiro panel 集中了 AI 專屬功能：
 
 ---
 
+<a id="init-project"></a>
+
 ## 1.3 初始化專案
 
 ### 建立空白專案
@@ -125,7 +127,7 @@ Kiro panel 集中了 AI 專屬功能：
 
 ### 下載專案素材
 
-Starter kit 放在本 repo 的 [`starter-kit/`](../starter-kit/) 目錄，約 1.6 MB。
+Starter kit 放在本 repo 的 [`starter-kit/`](https://github.com/ParinLL/kiro-workshop-requirement/tree/main/starter-kit) 目錄，約 1.6 MB。
 
 <details open>
 <summary><b>macOS / Linux</b></summary>
@@ -176,7 +178,7 @@ Remove-Item -Recurse -Force tmp, repo.zip
 
 `img` 資料夾包含 `example-ui.png`，是 Flappy Kiro 遊戲介面的示意圖 — 下一章會把它附加到 prompt 裡。
 
-素材的詳細規格（尺寸、長度、格式）見 [starter-kit/README.md](../starter-kit/README.md)。
+素材的詳細規格（尺寸、長度、格式）見 [starter-kit/README.md](https://github.com/ParinLL/kiro-workshop-requirement/blob/main/starter-kit/README.md)。
 
 > 音效已備妥三種可聽覺區分的提示音，加上一段可循環的背景音樂。這代表你在需求階段就可以放心地把「音效回饋」與「背景音樂」寫進規格 — 素材都在。
 
@@ -198,7 +200,7 @@ git commit -m 'Initial commit'
 
 > 本 workshop 中，每完成一個階段你都會 commit 一次。
 >
-> 這件事可以讓 Kiro 自動化，連 commit message 都幫你產生 — 詳見[第 8 章的 Hooks 段落](08-going-further.md#83-hooks)。
+> 這件事可以讓 Kiro 自動化，連 commit message 都幫你產生 — 詳見[第 8 章的 Hooks 段落](08-going-further.md#hooks)。
 
 ---
 

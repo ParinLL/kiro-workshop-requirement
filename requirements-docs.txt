@@ -1,0 +1,13 @@
+# 建置文件網站用的相依套件
+# 本機預覽：uvx --with-requirements requirements-docs.txt --from mkdocs mkdocs serve
+#
+# 注意：這裡刻意「不」安裝 jieba。
+# Material 的 search plugin 若偵測到 jieba，會在建置時用它切分中文並插入零寬空格。
+# 但 jieba 的切法與瀏覽器端 lunr.ja（TinySegmenter）的切法不一致，
+# 反而讓整詞查詢失效 — 實測 jieba 把「防火牆」切成「防火」+「牆」，
+# 導致搜尋「防火牆」得到 0 筆。
+# 移除 jieba、讓兩端都由 TinySegmenter 處理後：
+#   防火牆    0 → 2 筆
+#   行前準備  0 → 2 筆
+#   其餘查詢維持不變
+mkdocs-material==9.7.7
