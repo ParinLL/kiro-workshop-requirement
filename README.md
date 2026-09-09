@@ -21,7 +21,9 @@ Workshop 內容是用 Kiro 的 **spec-driven development** 流程，從零建出
 | 7 | 防火牆 / Proxy 放行 | 企業筆電常見卡點 |
 | 8 | （建議）預先下載 starter kit | 避免現場網路壅塞 |
 
-選配章節（Going further / Deploy）另需 Node.js、Kiro CLI、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
+選配章節（Going further / Deploy）另需 Node.js 20+、**Google Chrome**、Kiro CLI、AWS 帳號 — 見下方[選配項目](#選配項目going-further--deploy-章節)。
+
+**若會做 MCP 章節，強烈建議行前跑一次 `npx -y @playwright/mcp@latest --version` 暖機**，可省下現場每人 57 MB 的下載。
 
 ---
 
@@ -174,15 +176,56 @@ Workshop 中會在 Kiro 裡建一個名為 `kiro-introduction` 的資料夾，�
 
 以下只有做延伸章節才需要。若時間有限可略過，但**若打算做，請一併行前準備**。
 
-### Node.js（MCP 章節需要）
+### MCP 章節：Playwright（建議預裝）+ Context7（加分）
 
-MCP 章節會安裝 **Playwright MCP server**，透過 `npx` 執行，因此需要 Node.js。
+Workshop 的 MCP 章節指定使用 **Playwright MCP server**，從 [Kiro Server Directory](https://kiro.dev/docs/mcp/servers/) 按 **+ Add to Kiro** 一鍵加入，不需手動編輯設定檔。
 
-- 建議 Node.js 20 LTS 或以上
-- 驗證：`node --version` 與 `npx --version`
-- Playwright 首次啟動可能會下載瀏覽器（數百 MB），建議行前先跑一次暖機
+兩者在 Server Directory 都標註 **Requires Node installed**，因此先裝 Node.js：
 
-安裝方式：workshop 是從 [Kiro Server Directory](https://kiro.dev/) 按 **+ Add to Kiro** 一鍵加入，不需手動編輯設定檔。
+- 建議 **Node.js 20 LTS 或以上**
+- 驗證：`node --version`、`npx --version`
+
+#### Playwright MCP — 建議行前預裝
+
+實測過的三件事（避免現場踩雷）：
+
+| 項目 | 實測結果 |
+|---|---|
+| 套件冷啟動下載量 | **約 57 MB**（npx 快取） |
+| 是否下載瀏覽器 binary | **不會**。把 `PLAYWRIGHT_BROWSERS_PATH` 指向空目錄後仍能正常操作網頁，該目錄維持 0 B |
+| 沒裝 Chrome 的後果 | 第一次呼叫工具就失敗：`Chromium distribution 'chrome' is not found ... Run "npx playwright install chrome"` |
+
+所以真正的相依是 **系統要有 Google Chrome**，不是下載 Chromium。行前請完成：
+
+1. 安裝 Node.js 20+
+2. 安裝 **Google Chrome**
+3. 暖機 npx 快取（省下現場 57 MB × 全班的下載量）：
+
+```bash
+npx -y @playwright/mcp@latest --version
+```
+
+> 教室網路是最大瓶頸：57 MB 乘上 30 人約 1.7 GB，乘上 100 人約 5.7 GB。這一步預先做完，MCP 章節可以從「等下載」變成「幾秒內 Connected」。
+
+#### Context7 MCP — workshop 沒提到，但值得加
+
+[Context7](https://context7.com/) 提供**函式庫的即時最新文件**給 AI agent 用，同樣在 Kiro Server Directory 裡可一鍵安裝。
+
+**加分在哪：**
+
+- Going further 的 **subagents** 章節明確要「平行抓取多個文件來源」，Context7 正好是這個用途
+- 學員若讓 Kiro 改用遊戲框架（Phaser、Kaboom.js、PixiJS），Context7 能給到當前版本的 API。實測查 `phaser` 會回 `/phaserjs/phaser`，2296 個 code snippets
+- Deploy 章節查 CDK / Amplify 寫法時也用得上
+
+**但核心 90 分鐘章節其實不需要它。** Flappy Kiro 是原生 HTML5 Canvas + JavaScript，沒有函式庫版本漂移問題，Kiro 內建知識就夠。
+
+**要用就注意 rate limit（重要）：**
+
+- 不帶 API key 也能跑（實測未設 `CONTEXT7_API_KEY` 可正常回應），但官方明載 API key 才有較高 rate limit
+- 匿名額度是**按 IP** 計算。整間教室走同一個 NAT 出口，30～100 人共用一個額度，**很可能撞 429，反而變成 lab 的卡點**
+- 因此若要在課堂使用，請**每位學員各自申請免費 key**：<https://context7.com/dashboard>，設為環境變數 `CONTEXT7_API_KEY`
+
+**結論**：Playwright 必裝（章節指定用到）；Context7 列為選配加分，若要開就一定要配自己的 free API key，否則建議課堂上別開。
 
 ### Kiro CLI
 
@@ -240,7 +283,12 @@ bash scripts/check-prereqs.sh
 - [ ] Starter kit 已下載（或確認能連上下載網址）
 - [ ] 瀏覽器可正常開啟本機頁面
 - [ ] （選配）`node --version` ≥ 20
+- [ ] （選配）Google Chrome 已安裝（Playwright MCP 需要）
+- [ ] （選配）已執行 `npx -y @playwright/mcp@latest --version` 暖機
+- [ ] （選配）Context7 free API key 已取得並設為 `CONTEXT7_API_KEY`
 - [ ] （選配）`kiro-cli whoami` 能回傳身分
+
+> 若你用 nvm / fnm / volta / asdf 管理 Node，注意這些版本管理器在非互動 shell 中不會載入，Kiro 的 MCP 設定可能需要填 node 的**絕對路徑**。檢查腳本會偵測並提醒。
 
 ---
 

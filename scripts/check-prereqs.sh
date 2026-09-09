@@ -98,16 +98,64 @@ done
 head1 '選配項目 (Going further / Deploy)'
 
 # --- Node.js ---
-if command -v node >/dev/null 2>&1; then
-  nv="$(node --version | tr -d 'v')"
+# 注意: nvm / fnm / volta / asdf 管理的 Node 在非互動 shell 中不會出現在 PATH,
+# 因此除了 command -v 之外, 也直接探測常見安裝路徑。
+resolve_node() {
+  if command -v node >/dev/null 2>&1; then
+    command -v node
+    return 0
+  fi
+  local c
+  for c in \
+    "${NVM_DIR:-$HOME/.nvm}"/versions/node/*/bin/node \
+    "$HOME"/.fnm/node-versions/*/installation/bin/node \
+    "$HOME"/.local/share/fnm/node-versions/*/installation/bin/node \
+    "$HOME"/.volta/bin/node \
+    "$HOME"/.asdf/shims/node \
+    /opt/homebrew/bin/node \
+    /usr/local/bin/node
+  do
+    [ -x "$c" ] && printf '%s\n' "$c" && return 0
+  done
+  return 1
+}
+
+NODE_BIN="$(resolve_node || true)"
+if [ -n "$NODE_BIN" ]; then
+  nv="$("$NODE_BIN" --version | tr -d 'v')"
   major="${nv%%.*}"
   if [ "$major" -ge 20 ] 2>/dev/null; then
-    ok "Node.js v$nv (MCP 章節可用)"
+    ok "Node.js v$nv (MCP 章節可用) — $NODE_BIN"
   else
     note "Node.js v$nv 版本偏舊，建議升級到 20 LTS 以上"
   fi
+  if ! command -v node >/dev/null 2>&1; then
+    note 'node 不在預設 PATH（版本管理器如 nvm 造成）— Kiro 的 MCP 設定可能需要填絕對路徑'
+  fi
 else
-  note 'Node.js 未安裝 — MCP 章節需要（https://nodejs.org/）'
+  note 'Node.js 未安裝 — Playwright / Context7 MCP 章節需要（https://nodejs.org/）'
+fi
+
+# --- Google Chrome (Playwright MCP 預設使用系統 Chrome) ---
+chrome_found=""
+for p in "/Applications/Google Chrome.app" "$HOME/Applications/Google Chrome.app" \
+         "/usr/bin/google-chrome" "/usr/bin/google-chrome-stable" "/opt/google/chrome/chrome"; do
+  [ -e "$p" ] && chrome_found="$p" && break
+done
+if [ -n "$chrome_found" ]; then
+  ok "Google Chrome 已安裝 ($chrome_found) — Playwright MCP 可直接使用"
+else
+  note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome，缺少時首次呼叫會失敗並要求 npx playwright install chrome'
+fi
+
+# --- Playwright MCP 套件快取是否已暖機 ---
+if [ -n "$NODE_BIN" ]; then
+  if find "$HOME/.npm/_npx" -maxdepth 3 -type d -name '*playwright*' 2>/dev/null | grep -q . \
+     || find "$HOME/.npm/_npx" -maxdepth 4 -path '*@playwright*' 2>/dev/null | grep -q .; then
+    ok 'Playwright MCP 套件已在 npx 快取中（現場不需重新下載）'
+  else
+    note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
+  fi
 fi
 
 # --- Kiro CLI ---

@@ -124,7 +124,34 @@ if (Get-Command node -ErrorAction SilentlyContinue) {
         Write-Note "Node.js v$nv 版本偏舊，建議升級到 20 LTS 以上"
     }
 } else {
-    Write-Note 'Node.js 未安裝 — MCP 章節需要（https://nodejs.org/）'
+    Write-Note 'Node.js 未安裝 — Playwright / Context7 MCP 章節需要（https://nodejs.org/）'
+}
+
+# --- Google Chrome (Playwright MCP 預設使用系統 Chrome) ---
+$chromePaths = @(
+    "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+    "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe",
+    "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe"
+)
+$chrome = $chromePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+if ($chrome) {
+    Write-Ok "Google Chrome 已安裝 ($chrome) — Playwright MCP 可直接使用"
+} else {
+    Write-Note 'Google Chrome 未找到 — Playwright MCP 預設走系統 Chrome，缺少時首次呼叫會失敗並要求 npx playwright install chrome'
+}
+
+# --- Playwright MCP 套件快取是否已暖機 ---
+$npxCache = "$env:APPDATA\npm-cache\_npx"
+if (Test-Path $npxCache) {
+    $cached = Get-ChildItem $npxCache -Recurse -Depth 3 -Directory -ErrorAction SilentlyContinue |
+              Where-Object { $_.Name -like '*playwright*' } | Select-Object -First 1
+    if ($cached) {
+        Write-Ok 'Playwright MCP 套件已在 npx 快取中（現場不需重新下載）'
+    } else {
+        Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
+    }
+} else {
+    Write-Note 'Playwright MCP 尚未快取（首次啟動需下載約 57 MB）— 建議行前執行: npx -y @playwright/mcp@latest --version'
 }
 
 # --- Kiro CLI ---
