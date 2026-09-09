@@ -19,6 +19,9 @@ theme:
     - toc.follow
     - content.code.copy
     - content.code.annotate
+    # 讓同名的 content tab 全站連動：學員選一次 Windows，
+    # 之後每頁的 OS 分頁都自動停在 Windows
+    - content.tabs.link
     - content.action.edit
     - search.highlight
     - search.share
