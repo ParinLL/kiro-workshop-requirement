@@ -78,7 +78,7 @@ if (Get-Command git -ErrorAction SilentlyContinue) {
 
 # --- curl ---
 if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
-    Write-Ok 'curl 已安裝'
+    Write-Ok 'curl.exe 已安裝'
 } else {
     Write-Bad 'curl.exe 未找到（Windows 10 1803+ 內建）'
 }

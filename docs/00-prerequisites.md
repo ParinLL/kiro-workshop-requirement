@@ -183,12 +183,30 @@ git config --global user.email   # 需有值
 
 確認：
 
-```bash
-curl --version
-tar --version
-```
+=== "macOS"
 
-> **Windows 注意**：在 Windows PowerShell 5.1 中，`curl` 是 `Invoke-WebRequest` 的**別名**，不是真正的 curl，它不認得 `-L` 與 `-o`，指令會靜默失敗。教材裡的 Windows 指令都寫成 `curl.exe`，請照抄，不要簡寫成 `curl`。
+    ```bash
+    curl --version
+    tar --version
+    ```
+
+=== "Windows"
+
+    ```powershell
+    curl.exe --version
+    tar --version
+    ```
+
+!!! warning "Windows 必讀：`curl` 不是 curl"
+
+    在 Windows PowerShell 5.1 中，`curl` 是 `Invoke-WebRequest` 的**別名**，不是真正的 curl。
+
+    它不認得 `-L`、`-o` 這些參數，會把 `--version` 當成網址去連，直接擲出
+    `無法解析遠端名稱: '--version'`；用在下載指令上則是靜默失敗、什麼都沒下載。
+
+    **教材裡的 Windows 指令都寫成 `curl.exe`，請照抄，不要簡寫成 `curl`。**
+
+    （`tar` 沒有這個問題，Windows 的 `tar` 就是真正的 bsdtar。）
 
 ### 6. Google Chrome
 
@@ -485,7 +503,7 @@ npx -y serve --version
 - [ ] Kiro IDE 已安裝，且能用 AWS Builder ID 成功登入
 - [ ] Kiro 的 Chat panel（`Cmd+L` / `Ctrl+L`）可以開啟並回應
 - [ ] `git --version` 有輸出，且 `user.name` / `user.email` 已設定
-- [ ] `curl --version` 與 `tar --version` 有輸出
+- [ ] `curl --version`（Windows 用 `curl.exe --version`）與 `tar --version` 有輸出
 - [ ] `node --version` ≥ 20
 - [ ] Google Chrome 已安裝
 - [ ] Starter kit 已取得（或確認能連上 GitHub）
