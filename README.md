@@ -5,7 +5,11 @@
 </p>
 
 <p align="center">
-  <b><a href="https://parinll.github.io/kiro-workshop-requirement/">📖 開始上課 → 課程網站</a></b>
+  <b><a href="https://parin.dev/kiro">📖 開始上課 → parin.dev/kiro</a></b>
+</p>
+
+<p align="center">
+  <sub>課程網站：<a href="https://kiro-workshop.parinl.com/">kiro-workshop.parinl.com</a></sub>
 </p>
 
 Kiro 實作課程教材，改寫自 AWS 官方的 [Kiro Express workshop](https://catalog.workshops.aws/kiro-express/en-US/)。
@@ -106,6 +110,10 @@ mkdocs build --strict
 ## 開課須知
 
 以下是規劃課程時需要知道的事，`docs/` 裡的教材維持學員視角，不含這些內容。
+
+**要給學員的網址**
+
+`parin.dev/kiro` — 短、好唸、好打，適合放在投影片或口述。它 302 轉到 `kiro-workshop.parinl.com`（GitHub Pages 自訂網域）。
 
 **頻寬**
 
