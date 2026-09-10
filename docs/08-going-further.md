@@ -322,7 +322,7 @@ MCP server 大多以 `npx` 執行，因此需要 **Node.js 20 或以上**。Play
 
 它和 [8.1 的 subagents 文件研究](#doc-research)搭配特別有用 — 想深入 Canvas 2D、Web Audio 或 `requestAnimationFrame` 的當前用法時，能拿到準確的資料而不是模型的舊記憶。
 
-> **注意 rate limit**：不帶 API key 也能使用，但免費額度是**按 IP** 計算，多人共用同一個對外網路時容易一起撞到上限。建議在 [context7.com/dashboard](https://context7.com/dashboard) 申請自己的免費 API key，設為環境變數 `CONTEXT7_API_KEY`。
+> **注意 rate limit**：不帶 API key 也能使用，但未帶 key 時的額度是**按 IP** 計算，多人共用同一個對外網路時容易一起撞到上限。建議在 [context7.com/dashboard](https://context7.com/dashboard) 申請自己的 API key，設為環境變數 `CONTEXT7_API_KEY`。
 
 ### （選配）其他 MCP 探索方向
 

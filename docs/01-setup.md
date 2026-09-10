@@ -18,9 +18,9 @@
 
 本 workshop 使用 **AWS Builder ID** 連線 Kiro。
 
-**AWS Builder ID** 是一組個人身分，讓你在**沒有 AWS 帳號**的情況下使用部分工具與服務。它與任何既有 AWS 帳號的憑證和資料互相獨立，而且免費。
+**AWS Builder ID** 是一組個人身分，讓你在**沒有 AWS 帳號**的情況下使用部分工具與服務。它與任何既有 AWS 帳號的憑證和資料互相獨立，建立帳號不需付費。
 
-> 用免費方案的 Builder ID 登入時，你不會建立任何資源，也不會產生任何費用。
+> 用 Builder ID 登入本課程時，你不會建立任何 AWS 資源，因此沒有 AWS 費用。Kiro 本身的使用會消耗你方案的 credits — 詳見[行前準備的用量說明](00-prerequisites.md#credits)。
 
 可在 [AWS Builder ID 個人頁面](https://profile.aws.amazon.com/) 查看你的帳號資訊。
 

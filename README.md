@@ -12,7 +12,7 @@ Kiro 實作課程教材，改寫自 AWS 官方的 [Kiro Express workshop](https:
 
 從零建出 **Flappy Kiro** — 在瀏覽器中執行的街機風無盡跑酷遊戲，主角是幽靈 **Ghosty**。過程中實際體驗 Kiro 的 **spec-driven development**：先定義需求，再協作精修設計，然後引導 Kiro 逐項完成實作。
 
-核心章節約 **90 分鐘**，**全程在本機執行、不需要 AWS 帳號、零費用**。
+核心章節約 **90 分鐘**，**全程在本機執行、不需要 AWS 帳號、不建立任何 AWS 資源**。
 
 ---
 
@@ -97,7 +97,7 @@ mkdocs build --strict
 
 ## 與 AWS 原版的差異
 
-**移除**：Deploy 與 Clean up 章節，以及 Going further 的 Kiro CLI 與 Kiro Powers（都聚焦在 AWS 部署）。因此全程本機執行、零費用。
+**移除**：Deploy 與 Clean up 章節，以及 Going further 的 Kiro CLI 與 Kiro Powers（都聚焦在 AWS 部署）。因此全程本機執行、不建立任何 AWS 資源。
 
 **強化**：更完整的音效素材（多了計分音與可循環背景音樂）、Context7 MCP 的評估與 rate limit 提醒、實測過的 Playwright MCP 行前細節、兩個平台的環境檢查腳本。
 
@@ -113,9 +113,15 @@ MCP 章節的 Playwright server 設定是 `npx @playwright/mcp@latest`，套件�
 
 「先暖機 npx 快取」不是可靠的解法：`@latest` 每次都會重新向 registry 解析版本，只要活動前套件發了新版就會重新下載（實測換版本後多抓 22 MB）。全域 `npm install -g` 也沒用 — 已全域安裝 0.0.80 的機器，`npx` 仍下載了 57 MB。若真要求確定性，做法是在 `mcp.json` 裡把版本釘死。
 
+**Kiro credits**
+
+這是排課時最該先確認的一項。Kiro Free 方案每月 **50 credits**，credits 依每次請求的規模分次扣用，而本課程屬 agent 密集型（產生規格 + 逐項執行實作任務），用量不小。付費方案為 Pro $20（1,000 credits）起，另可加購 credits（$0.04/credit）。
+
+實務建議：請學員課前確認 credit 餘額；若多數人用 Free 方案，可考慮把第 5-7 章的實作段落縮短或改為講師示範。最新方案內容見 <https://kiro.dev/pricing/>。
+
 **Context7 的 rate limit**
 
-免費額度按 IP 計算，整班走同一個 NAT 出口會共用額度、容易撞 429。若要在課堂開啟，請要求每位學員各自申請 free key。
+未帶 API key 時的額度按 IP 計算，整班走同一個 NAT 出口會共用額度、容易撞 429。若要在課堂開啟，請要求每位學員各自申請自己的 key。
 
 **已在實機驗證過的行為**
 

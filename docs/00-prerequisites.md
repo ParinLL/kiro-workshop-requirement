@@ -11,7 +11,7 @@
 | # | 項目 | 為什麼需要 |
 |---|---|---|
 | 1 | 筆電 + 系統管理員權限 | 要安裝 Kiro IDE |
-| 2 | AWS Builder ID（免費） | Kiro 登入用，不需 AWS 帳號 |
+| 2 | AWS Builder ID | Kiro 登入用，不需 AWS 帳號 |
 | 3 | Kiro IDE 已安裝且登入成功 | 主要工具 |
 | 4 | Git（含 user.name / user.email） | 每個章節都會 commit |
 | 5 | curl + 解壓工具 | 取得 starter kit（系統內建） |
@@ -21,7 +21,15 @@
 | 9 | 防火牆 / Proxy 放行 | 企業或校園網路常需要事先申請 |
 | 10 | 預先取得 starter kit | 課前抓好，開始時就能直接進入主題 |
 
-> **費用提醒**：本課程**全程在本機執行，完全免費**。不會建立任何 AWS 資源，因此不需要 AWS 帳號、AWS CLI，也沒有部署環節。你只需要一組免費的 AWS Builder ID 來登入 Kiro。
+<a id="credits"></a>
+
+!!! info "關於用量"
+
+    本課程**全程在本機執行**，不會建立任何 AWS 資源，所以不需要 AWS 帳號，也沒有 AWS 費用。
+
+    但 **Kiro 本身的使用會消耗你方案的 credits**。Credits 是依每次請求的規模分次扣用 — 簡短的編輯扣得少，複雜或冗長的任務扣得多。本課程屬於 agent 密集的類型（產生規格、逐項執行實作任務），用量不算小。
+
+    [Kiro Free 方案](https://kiro.dev/pricing/)每月包含 50 credits。**課前請先確認你的 credit 餘額**：點 Kiro 右下角的使用量指示，或到 [app.kiro.dev](https://app.kiro.dev/) 查看。如果餘額偏低，可以先做完第 1-4 章的規格階段，把第 5-7 章的實作留到餘額恢復後再進行。
 
 ---
 
@@ -93,7 +101,7 @@
 
 本課程使用 **AWS Builder ID** 登入 Kiro。
 
-- 免費，**不需要 AWS 帳號**，也不會產生任何費用
+- 建立帳號不需付費，也**不需要 AWS 帳號**
 - 建立 / 檢視：<https://profile.aws.amazon.com/>
 - 也可以用 Google / GitHub 登入，但教材步驟是以 Builder ID 為主
 
@@ -388,11 +396,11 @@ MCP 章節使用 **Playwright MCP server**，從 [Kiro Server Directory](https:/
 
 **核心章節不需要它。** Flappy Kiro 是原生 HTML5 Canvas + JavaScript，沒有函式庫版本落差的問題，Kiro 內建知識就足夠。
 
-**要用的話請先申請免費 API key：**
+**要用的話請先申請自己的 API key：**
 
 - 不帶 API key 也能運作，但官方說明 API key 才有較高的 rate limit
-- 免費額度是**按 IP** 計算，所以多人共用同一個對外網路時容易一起撞到上限
-- 在 <https://context7.com/dashboard> 申請你自己的 free key，然後設為環境變數：
+- 未帶 key 時的額度是**按 IP** 計算，所以多人共用同一個對外網路時容易一起撞到上限
+- 在 <https://context7.com/dashboard> 申請你自己的 key，然後設為環境變數：
 
 === "macOS"
 
